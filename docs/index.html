@@ -156,11 +156,15 @@
         <p>Sirene is older and nearly toothless, yet she still leads the hunt. She relies on years of knowledge, calm patience, and her pod’s communication to teach younger whales how to hunt in the deep.</p>
         <p class="story-question">Why is experience as important as strength?</p>
       </div>
-      <div class="story-image story-image--culture"></div>
+      <div class="beat-six-stage" data-beat-six-scene aria-hidden="true">
+        <img class="beat-six-whale" src="Silhouette_Sperm_Whale.png" alt="" loading="lazy">
+      </div>
     </section>
 
     <section class="story-panel story-panel--deep story-panel--even story-panel--white-copy reveal">
-      <div class="story-image story-image--hunt reveal"></div>
+      <div class="beat-seven-stage reveal" data-beat-seven-scene aria-hidden="true">
+        <img class="beat-seven-squid" src="giant_squid_silhouette_transparent.png" alt="" loading="lazy">
+      </div>
       <div class="story-card">
         <span class="story-step">07</span>
         <h2>Because of that, the ocean changed</h2>
@@ -176,7 +180,11 @@
         <p>This is a story about discovery, not monsters. It is about human curiosity, new tools, and the responsibility to protect the deep-ocean world that connects whales, squid, and people.</p>
         <p class="story-question">What would you want to explore next in the deep ocean?</p>
       </div>
-      <div class="story-image story-image--future"></div>
+      <div class="story-image story-image--future" data-beat-eight-scene>
+        <div class="future-encounter" aria-hidden="true">
+          <img class="future-silhouette future-silhouette--squid" src="giant_squid_silhouette_transparent.png" alt="" loading="lazy">
+        </div>
+      </div>
     </section>
 
     <section class="cta-panel reveal">
@@ -201,6 +209,86 @@
       });
 
       revealTargets.forEach(element => observer.observe(element));
+
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+      const beatSixScene = document.querySelector('[data-beat-six-scene]');
+      if (beatSixScene) {
+        let beatSixTicking = false;
+
+        const updateBeatSixScene = () => {
+          const rect = beatSixScene.getBoundingClientRect();
+          const travel = window.innerHeight + rect.height;
+          const progress = clamp((window.innerHeight - rect.top) / travel, 0, 1);
+          const whale = clamp((progress - 0.18) / 0.2, 0, 1);
+
+          beatSixScene.style.setProperty('--beat-six-progress', progress.toFixed(4));
+          beatSixScene.style.setProperty('--beat-six-whale', whale.toFixed(4));
+          beatSixTicking = false;
+        };
+
+        const requestBeatSixUpdate = () => {
+          if (beatSixTicking) return;
+          beatSixTicking = true;
+          window.requestAnimationFrame(updateBeatSixScene);
+        };
+
+        window.addEventListener('scroll', requestBeatSixUpdate, { passive: true });
+        window.addEventListener('resize', requestBeatSixUpdate);
+        updateBeatSixScene();
+      }
+
+      const beatSevenScene = document.querySelector('[data-beat-seven-scene]');
+      if (beatSevenScene) {
+        let beatSevenTicking = false;
+
+        const updateBeatSevenScene = () => {
+          const rect = beatSevenScene.getBoundingClientRect();
+          const travel = window.innerHeight + rect.height;
+          const progress = clamp((window.innerHeight - rect.top) / travel, 0, 1);
+          const squid = clamp((progress - 0.16) / 0.22, 0, 1);
+
+          beatSevenScene.style.setProperty('--beat-seven-progress', progress.toFixed(4));
+          beatSevenScene.style.setProperty('--beat-seven-squid', squid.toFixed(4));
+          beatSevenTicking = false;
+        };
+
+        const requestBeatSevenUpdate = () => {
+          if (beatSevenTicking) return;
+          beatSevenTicking = true;
+          window.requestAnimationFrame(updateBeatSevenScene);
+        };
+
+        window.addEventListener('scroll', requestBeatSevenUpdate, { passive: true });
+        window.addEventListener('resize', requestBeatSevenUpdate);
+        updateBeatSevenScene();
+      }
+
+      const beatEightScene = document.querySelector('[data-beat-eight-scene]');
+      if (beatEightScene) {
+        let beatEightTicking = false;
+
+        const updateBeatEightScene = () => {
+          const rect = beatEightScene.getBoundingClientRect();
+          const travel = window.innerHeight + rect.height;
+          const progress = clamp((window.innerHeight - rect.top) / travel, 0, 1);
+          const figures = clamp((progress - 0.12) / 0.18, 0, 1);
+
+          beatEightScene.style.setProperty('--beat-eight-progress', progress.toFixed(4));
+          beatEightScene.style.setProperty('--beat-eight-figures', figures.toFixed(4));
+          beatEightTicking = false;
+        };
+
+        const requestBeatEightUpdate = () => {
+          if (beatEightTicking) return;
+          beatEightTicking = true;
+          window.requestAnimationFrame(updateBeatEightScene);
+        };
+
+        window.addEventListener('scroll', requestBeatEightUpdate, { passive: true });
+        window.addEventListener('resize', requestBeatEightUpdate);
+        updateBeatEightScene();
+      }
 
       const track = document.querySelector('.carousel-track');
       const slides = track ? Array.from(track.children) : [];
