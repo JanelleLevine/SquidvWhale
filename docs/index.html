@@ -128,15 +128,50 @@
       </div>
     </section>
 
-    <section class="beat-section" id="beat-3" aria-labelledby="beat-3-title">
+    <section class="beat-section beat-section--detritus" id="beat-3" aria-labelledby="beat-3-title">
+        <video class="section-ambient-video section-ambient-video--detritus" data-ambient-video muted loop playsinline preload="metadata" aria-hidden="true">
+          <source src="CanvaVideos/detritus.mp4" type="video/mp4">
+        </video>
         <div class="shell">
           <div class="section-heading">
           <h2 id="beat-3-title">Beat 3: The Dive | The hunt!</h2>
         </div>
         <div class="wire-grid wire-grid--beat-3">
-          <div class="depth-rail" aria-hidden="true">
-            <div class="depth-rail__lines"></div>
-            <span class="species-tag species-tag--squid">Squid</span>
+          <div class="depth-rail" data-depth-rail aria-hidden="true">
+            <div class="depth-rail__panel">
+              <div class="depth-rail__head">
+                <span class="depth-rail__eyebrow">Dive Telemetry</span>
+                <span class="depth-rail__readout"><span data-depth-value>0</span> m</span>
+                <p class="depth-rail__note" data-depth-note>Surface glare. Full sunlight.</p>
+              </div>
+              <div class="depth-rail__stats">
+                <div class="depth-rail__stat depth-rail__stat--pressure">
+                  <div class="depth-rail__stat-head">
+                    <span class="depth-rail__label">Pressure</span>
+                    <strong class="depth-rail__value"><span data-pressure-value>1</span> atm</strong>
+                  </div>
+                  <span class="depth-rail__meter"><span data-pressure-bar></span></span>
+                </div>
+                <div class="depth-rail__stat depth-rail__stat--temperature">
+                  <div class="depth-rail__stat-head">
+                    <span class="depth-rail__label">Temperature</span>
+                    <strong class="depth-rail__value"><span data-temperature-value>18</span> C</strong>
+                  </div>
+                  <span class="depth-rail__meter"><span data-temperature-bar></span></span>
+                </div>
+                <div class="depth-rail__stat depth-rail__stat--light">
+                  <div class="depth-rail__stat-head">
+                    <span class="depth-rail__label">Light</span>
+                    <strong class="depth-rail__value"><span data-light-value>100</span>%</strong>
+                  </div>
+                  <span class="depth-rail__meter"><span data-light-bar></span></span>
+                </div>
+              </div>
+              <div class="depth-rail__caption">
+                <span class="species-tag species-tag--squid">Hunt telemetry</span>
+                <p>The deeper the whale drops, the darker, colder, and heavier the water becomes.</p>
+              </div>
+            </div>
           </div>
           <div class="wire-copy-block">
             <div class="placeholder-copy">
@@ -182,7 +217,7 @@
       </div>
     </section>
 
-    <section class="beat-section" id="beat-4" aria-labelledby="beat-4-title">
+    <section class="beat-section beat-section--survival" id="beat-4" aria-labelledby="beat-4-title">
         <div class="shell">
           <div class="section-heading">
           <h2 id="beat-4-title">Beat 4: The Science of Survival!</h2>
@@ -207,37 +242,42 @@
       </div>
     </section>
 
-    <section class="beat-section" id="beat-5" aria-labelledby="beat-5-title">
-        <div class="shell">
+    <section class="beat-section beat-section--family" id="beat-5" aria-labelledby="beat-5-title" data-family-scene>
+      <div class="family-stage">
+        <video class="section-ambient-video section-ambient-video--family" data-ambient-video muted loop playsinline preload="metadata" aria-hidden="true">
+          <source src="CanvaVideos/sw_swimming_single.mp4" type="video/mp4">
+        </video>
+        <div class="shell family-stage__shell">
           <div class="section-heading">
           <h2 id="beat-5-title">Beat 5: Why it matters / learned | CTA</h2>
         </div>
-        <div class="card-grid">
-          <article class="mini-card">
+        <div class="card-grid card-grid--family">
+          <article class="mini-card" data-family-card>
             <h3>Header</h3>
             <div class="placeholder-copy">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer semper luctus eros, eget rutrum lacus fermentum ut.</p>
             </div>
           </article>
-          <article class="mini-card">
+          <article class="mini-card" data-family-card>
             <h3>Header</h3>
             <div class="placeholder-copy">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed nisi at arcu molestie posuere sit amet non dui.</p>
             </div>
           </article>
-          <article class="mini-card">
+          <article class="mini-card" data-family-card>
             <h3>Header</h3>
             <div class="placeholder-copy">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus magna quis leo fermentum, in feugiat mi mollis.</p>
             </div>
           </article>
-          <article class="mini-card">
+          <article class="mini-card" data-family-card>
             <h3>Header</h3>
             <div class="placeholder-copy">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque suscipit libero ac augue maximus, quis tincidunt enim faucibus.</p>
             </div>
           </article>
         </div>
+      </div>
       </div>
     </section>
 
@@ -283,12 +323,13 @@
       <div class="shell">
         <details class="photo-credits">
           <summary class="photo-credits__summary" id="photo-credits-title">
-            <span class="photo-credits__title">Photo Credits</span>
+            <span class="photo-credits__title">Photo &amp; Media Credits</span>
             <span class="photo-credits__glyph" aria-hidden="true"></span>
           </summary>
           <div class="photo-credits__content">
             <p><strong>Hero image.</strong> <cite>Whale&amp;Squid~11-29-08.JPG</cite>, WiKiRaW31, Wikimedia Commons, public domain. Adapted for this site with color and shading edits.</p>
             <p><strong>Beat 3, frame 1.</strong> <cite>Satellite-tagged sperm whale fin (22735046228).jpg</cite>, USFWSAlaska, Wikimedia Commons, public domain. Adapted for this site with cropping.</p>
+            <p><strong>Audio.</strong> <cite>Sperm Whale Creak 2.ogg</cite>, NOAA, from Wikimedia Commons, dated April 1, 2013. Public domain as a U.S. National Oceanic and Atmospheric Administration work.</p>
           </div>
         </details>
         <details class="photo-credits">
@@ -300,7 +341,129 @@
             <p>Scientific and interpretive source citations can be listed here as they are added to the story.</p>
           </div>
         </details>
-        <div class="bottom-encounter" data-bottom-encounter aria-hidden="true">
+        <div class="bottom-encounter bottom-encounter--scene-one" data-bottom-encounter>
+          <div class="bottom-encounter__explainer">
+            <h3>1</h3>
+            <div class="placeholder-copy">
+              <p>Squid have the largest eye-to-body ratio in the animal kingdom, which allows them to see bioluminescence and disturbances in the water from afar while sperm whales are hunting.</p>
+            </div>
+          </div>
+          <img class="bottom-encounter__silhouette bottom-encounter__silhouette--squid" src="assets/images/giant_squid_silhouette_transparent.png" alt="" loading="lazy">
+          <img class="bottom-encounter__silhouette bottom-encounter__silhouette--whale" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
+        </div>
+        <div class="bottom-encounter bottom-encounter--scene-two" data-bottom-encounter>
+          <div class="bottom-encounter__explainer">
+            <h3>2</h3>
+            <div class="placeholder-copy">
+              <p>Sperm whales use sonar to locate prey.</p>
+            </div>
+            <button class="bottom-encounter__audio-button" type="button" data-audio-toggle aria-pressed="false">
+              Play Sperm Whale Creak
+            </button>
+            <audio data-audio-player preload="none">
+              <source src="CanvaVideos/Sperm_Whale_Creak_2.ogg" type="audio/ogg">
+            </audio>
+          </div>
+          <div class="bottom-encounter__squid-group">
+            <img class="bottom-encounter__silhouette bottom-encounter__silhouette--squid" src="assets/images/giant_squid_silhouette_transparent.png" alt="" loading="lazy">
+          </div>
+          <div class="bottom-encounter__whale-group">
+            <div class="bottom-encounter__sonar" data-sonar-rings aria-hidden="true">
+              <span class="bottom-encounter__sonar-ring"></span>
+              <span class="bottom-encounter__sonar-ring"></span>
+              <span class="bottom-encounter__sonar-ring"></span>
+              <span class="bottom-encounter__sonar-ring"></span>
+              <span class="bottom-encounter__sonar-ring"></span>
+            </div>
+            <img class="bottom-encounter__silhouette bottom-encounter__silhouette--whale" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
+          </div>
+        </div>
+        <div class="bottom-encounter bottom-encounter--scene-three" data-bottom-encounter>
+          <div class="bottom-encounter__explainer">
+            <h3>3</h3>
+            <div class="placeholder-copy">
+              <p>Squid have the remarkable ability to change colors thanks to their chromatophores. Here are some close-ups of the coloration of different squid as they change their colors.</p>
+            </div>
+          </div>
+          <img class="bottom-encounter__silhouette bottom-encounter__silhouette--squid" src="assets/images/giant_squid_silhouette_transparent.png" alt="" loading="lazy">
+          <div class="bottom-encounter__carousel-group">
+            <section class="carousel-block bottom-encounter__carousel" aria-label="Chromatophore image carousel" data-carousel tabindex="0">
+              <div class="carousel-shell">
+                <button class="carousel-control" type="button" data-carousel-prev aria-label="Previous chromatophore image">
+                  <span aria-hidden="true">&larr;</span>
+                </button>
+                <div class="carousel-viewport" aria-live="polite">
+                  <div class="carousel-track" data-carousel-track>
+                    <article class="carousel-slide is-active" data-carousel-slide>
+                      <figure class="carousel-frame carousel-frame--image">
+                        <img src="Chromatophores/bifinreefsquid.svg" alt="Bigfin reef squid chromatophore illustration.">
+                      </figure>
+                    </article>
+                    <article class="carousel-slide" data-carousel-slide>
+                      <figure class="carousel-frame carousel-frame--image">
+                        <img src="Chromatophores/calamarsquid.svg" alt="Calamar squid chromatophore illustration.">
+                      </figure>
+                    </article>
+                    <article class="carousel-slide" data-carousel-slide>
+                      <figure class="carousel-frame carousel-frame--image">
+                        <img src="Chromatophores/fireflysquid.svg" alt="Firefly squid chromatophore illustration.">
+                      </figure>
+                    </article>
+                    <article class="carousel-slide" data-carousel-slide>
+                      <figure class="carousel-frame carousel-frame--image">
+                        <img src="Chromatophores/myopsida.svg" alt="Myopsida squid chromatophore illustration.">
+                      </figure>
+                    </article>
+                  </div>
+                </div>
+                <button class="carousel-control" type="button" data-carousel-next aria-label="Next chromatophore image">
+                  <span aria-hidden="true">&rarr;</span>
+                </button>
+              </div>
+              <div class="carousel-indicators" aria-label="Choose chromatophore image">
+                <button class="carousel-indicator is-active" type="button" data-carousel-dot="0" aria-label="Go to chromatophore image 1"></button>
+                <button class="carousel-indicator" type="button" data-carousel-dot="1" aria-label="Go to chromatophore image 2"></button>
+                <button class="carousel-indicator" type="button" data-carousel-dot="2" aria-label="Go to chromatophore image 3"></button>
+                <button class="carousel-indicator" type="button" data-carousel-dot="3" aria-label="Go to chromatophore image 4"></button>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="bottom-encounter bottom-encounter--scene-four" data-bottom-encounter>
+          <div class="bottom-encounter__explainer">
+            <h3>4</h3>
+            <div class="placeholder-copy">
+              <p>Sperm whales share information, including teaching hunting skills through generations.</p>
+            </div>
+          </div>
+          <img class="bottom-encounter__silhouette bottom-encounter__silhouette--squid" src="assets/images/giant_squid_silhouette_transparent.png" alt="" loading="lazy">
+          <img class="bottom-encounter__silhouette bottom-encounter__silhouette--whale bottom-encounter__silhouette--whale-secondary" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
+          <img class="bottom-encounter__silhouette bottom-encounter__silhouette--whale" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
+        </div>
+        <div class="bottom-encounter bottom-encounter--scene-five" data-bottom-encounter>
+          <div class="bottom-encounter__explainer">
+            <h3>5</h3>
+            <div class="placeholder-copy">
+              <p>Add the final interpretive text here to explain the encounter, compare the two animals, or leave visitors with the main takeaway from the story.</p>
+            </div>
+          </div>
+          <div class="bottom-encounter__ink-squid-group">
+            <span class="bottom-encounter__ink-backdrop" aria-hidden="true"></span>
+            <span class="bottom-encounter__squid-tint" aria-hidden="true"></span>
+            <video class="bottom-encounter__squid-ink-video" data-ambient-video muted loop playsinline preload="metadata" aria-hidden="true">
+              <source src="CanvaVideos/squidink_inwater.mp4" type="video/mp4">
+            </video>
+            <img class="bottom-encounter__silhouette bottom-encounter__silhouette--squid" src="assets/images/giant_squid_silhouette_transparent.png" alt="" loading="lazy">
+            <img class="bottom-encounter__squid-eye-highlight" src="assets/images/giant_squid_silhouette_transparent.png" alt="" aria-hidden="true" loading="lazy">
+          </div>
+        </div>
+        <div class="bottom-encounter" data-bottom-encounter>
+          <div class="bottom-encounter__explainer">
+            <h3>6</h3>
+            <div class="placeholder-copy">
+              <p>Add the final interpretive text here to explain the encounter, compare the two animals, or leave visitors with the main takeaway from the story.</p>
+            </div>
+          </div>
           <img class="bottom-encounter__silhouette bottom-encounter__silhouette--squid" src="assets/images/giant_squid_silhouette_transparent.png" alt="" loading="lazy">
           <img class="bottom-encounter__silhouette bottom-encounter__silhouette--whale" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
         </div>
