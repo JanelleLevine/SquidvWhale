@@ -1478,6 +1478,133 @@ a {
   z-index: 2;
 }
 
+.bottom-encounter--scene-six {
+  min-height: clamp(30rem, 68vw, 46rem);
+}
+
+.bottom-encounter--scene-six .bottom-encounter__explainer {
+  top: 52%;
+  width: clamp(14rem, 19vw, 16rem);
+  min-height: clamp(13.5rem, 20vw, 17rem);
+  z-index: 5;
+}
+
+.bottom-encounter__migration {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bottom-encounter__migration::before,
+.bottom-encounter__migration::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.bottom-encounter__migration::before {
+  inset: -8%;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(190, 227, 255, 0.12), transparent 34%),
+    radial-gradient(circle at 74% 70%, rgba(72, 130, 209, 0.14), transparent 30%),
+    linear-gradient(180deg, rgba(6, 12, 22, 0) 0%, rgba(3, 7, 14, 0.16) 100%);
+  opacity: 0.82;
+  z-index: 0;
+}
+
+.bottom-encounter__migration::after {
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(3, 8, 15, 0.24) 0%, transparent 16%, transparent 84%, rgba(3, 8, 15, 0.24) 100%),
+    linear-gradient(180deg, rgba(2, 5, 10, 0.02) 0%, rgba(2, 6, 12, 0.2) 100%);
+  opacity: 0.68;
+  z-index: 0;
+}
+
+.bottom-encounter__migration-field {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.bottom-encounter__creature {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--creature-base-size);
+  opacity: calc(var(--creature-progress) * var(--creature-opacity));
+  transform:
+    translate3d(
+      calc(-50% + ((1 - var(--creature-progress)) * var(--creature-entry-x)) + ((var(--bottom-encounter-progress) - 0.5) * var(--creature-parallax-x))),
+      calc(-50% + ((1 - var(--creature-progress)) * var(--creature-entry-y)) + ((var(--bottom-encounter-progress) - 0.5) * var(--creature-parallax-y))),
+      0
+    )
+    scale(var(--creature-scale))
+    rotate(calc(var(--creature-rotation) + ((1 - var(--creature-progress)) * var(--creature-entry-rotation))));
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.bottom-encounter__creature-body {
+  width: 100%;
+  transform-origin: center;
+  animation: bottom-encounter-creature-drift var(--creature-drift-duration) ease-in-out infinite;
+  animation-delay: var(--creature-drift-delay);
+  backface-visibility: hidden;
+}
+
+.bottom-encounter__creature-media {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: scaleX(var(--creature-mirror, 1)) scale(var(--creature-stretch-x, 1), var(--creature-stretch-y, 1));
+  transform-origin: center;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.bottom-encounter__creature--whale {
+  --creature-base-size: clamp(14rem, 25vw, 22rem);
+}
+
+.bottom-encounter__creature--whale .bottom-encounter__creature-body {
+  filter:
+    brightness(0)
+    saturate(0)
+    invert(0.96)
+    sepia(0.08)
+    hue-rotate(176deg)
+    brightness(1.02)
+    contrast(1.04)
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.16))
+    drop-shadow(0 0 12px rgba(214, 228, 255, 0.16))
+    drop-shadow(0 0 34px rgba(118, 168, 255, 0.14));
+}
+
+.bottom-encounter__creature--squid {
+  --creature-base-size: clamp(9.5rem, 18vw, 16rem);
+}
+
+.bottom-encounter__creature--squid .bottom-encounter__creature-body {
+  filter:
+    brightness(0)
+    saturate(0)
+    invert(0.93)
+    sepia(0.05)
+    hue-rotate(178deg)
+    brightness(1.01)
+    contrast(1.02)
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.18))
+    drop-shadow(0 0 14px rgba(220, 234, 255, 0.15))
+    drop-shadow(0 0 38px rgba(116, 170, 255, 0.14));
+}
+
+.bottom-encounter__creature--background {
+  opacity: calc(var(--creature-progress) * var(--creature-opacity) * 0.84);
+}
+
 .bottom-encounter__carousel {
   gap: 1rem;
   min-height: auto;
@@ -1544,6 +1671,32 @@ a {
   animation: scene-one-whale-halo-pulse 1280ms ease-in-out infinite;
 }
 
+@keyframes bottom-encounter-creature-drift {
+  0% {
+    transform:
+      translate3d(calc(var(--creature-drift-x) * -0.55), calc(var(--creature-drift-y) * -0.42), 0)
+      rotate(calc(var(--creature-drift-rotation) * -0.52));
+  }
+
+  37% {
+    transform:
+      translate3d(calc(var(--creature-drift-x) * 0.22), calc(var(--creature-drift-y) * -0.86), 0)
+      rotate(calc(var(--creature-drift-rotation) * 0.16));
+  }
+
+  71% {
+    transform:
+      translate3d(calc(var(--creature-drift-x) * 0.88), calc(var(--creature-drift-y) * 0.4), 0)
+      rotate(calc(var(--creature-drift-rotation) * 0.78));
+  }
+
+  100% {
+    transform:
+      translate3d(calc(var(--creature-drift-x) * -0.14), var(--creature-drift-y), 0)
+      rotate(var(--creature-drift-rotation));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1563,6 +1716,11 @@ a {
 
   .bottom-encounter--scene-one .bottom-encounter__silhouette--whale {
     animation: none;
+  }
+
+  .bottom-encounter__creature-body {
+    animation: none;
+    transform: none;
   }
 
   .bottom-encounter--scene-two.is-sonar-active .bottom-encounter__sonar-ring {
@@ -1783,6 +1941,24 @@ a {
     left: clamp(-10rem, -18vw, -3rem);
     bottom: clamp(-7rem, -8vw, -1rem);
     width: clamp(20rem, 64vw, 34rem);
+  }
+
+  .bottom-encounter--scene-six {
+    min-height: clamp(32rem, 86vw, 42rem);
+  }
+
+  .bottom-encounter--scene-six .bottom-encounter__explainer {
+    top: 54%;
+    width: clamp(13rem, 24vw, 15.25rem);
+    min-height: clamp(13rem, 25vw, 16rem);
+  }
+
+  .bottom-encounter__creature--whale {
+    --creature-base-size: clamp(13rem, 31vw, 20rem);
+  }
+
+  .bottom-encounter__creature--squid {
+    --creature-base-size: clamp(9rem, 21vw, 14.5rem);
   }
 
   .hero-panel,
@@ -2036,6 +2212,31 @@ a {
     bottom: clamp(-5rem, -8vw, -1rem);
     width: clamp(18rem, 96vw, 30rem);
     opacity: calc(var(--bottom-encounter-squid) * 0.52);
+  }
+
+  .bottom-encounter--scene-six {
+    min-height: clamp(36rem, 138vw, 44rem);
+  }
+
+  .bottom-encounter--scene-six .bottom-encounter__explainer {
+    top: auto;
+    bottom: clamp(1rem, 4vw, 1.5rem);
+    left: 50%;
+    width: min(calc(100% - 1.5rem), 18rem);
+    min-height: auto;
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  .bottom-encounter__creature--background {
+    display: none;
+  }
+
+  .bottom-encounter__creature--whale {
+    --creature-base-size: clamp(11rem, 42vw, 16rem);
+  }
+
+  .bottom-encounter__creature--squid {
+    --creature-base-size: clamp(8.5rem, 28vw, 12.75rem);
   }
 
   .bottom-encounter__carousel .carousel-shell {
