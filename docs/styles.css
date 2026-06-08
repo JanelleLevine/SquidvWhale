@@ -316,7 +316,7 @@ a {
 }
 
 .wire-grid--beat-3 {
-  grid-template-columns: minmax(230px, 280px) minmax(0, 1fr) minmax(300px, 0.95fr);
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.95fr);
   align-items: start;
 }
 

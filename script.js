@@ -134,59 +134,6 @@ const registerScrollScene = (element, updateScene, getProgress) => {
   requestSceneRender();
 };
 
-const beatThree = document.querySelector('#beat-3');
-const depthRail = beatThree?.querySelector('[data-depth-rail]');
-const depthValue = depthRail?.querySelector('[data-depth-value]');
-const depthNote = depthRail?.querySelector('[data-depth-note]');
-const pressureValue = depthRail?.querySelector('[data-pressure-value]');
-const temperatureValue = depthRail?.querySelector('[data-temperature-value]');
-const lightValue = depthRail?.querySelector('[data-light-value]');
-const pressureBar = depthRail?.querySelector('[data-pressure-bar]');
-const temperatureBar = depthRail?.querySelector('[data-temperature-bar]');
-const lightBar = depthRail?.querySelector('[data-light-bar]');
-
-if (
-  beatThree &&
-  depthRail &&
-  depthValue &&
-  depthNote &&
-  pressureValue &&
-  temperatureValue &&
-  lightValue &&
-  pressureBar &&
-  temperatureBar &&
-  lightBar
-) {
-  registerScrollScene(beatThree, (_section, progress) => {
-    const diveProgress = clamp((progress - 0.08) / 0.84, 0, 1);
-    const depth = Math.round((diveProgress * 2000) / 25) * 25;
-    const pressure = Math.round(1 + depth / 10);
-    const temperature = Math.max(4, 18 - diveProgress * 14);
-    const light = Math.max(0, Math.round(100 * Math.exp(-depth / 280)));
-    let note = 'Surface glare. Full sunlight.';
-
-    if (depth >= 1400) {
-      note = 'Squid-hunt depth. Crushing pressure, almost no light.';
-    } else if (depth >= 900) {
-      note = 'Midnight zone. Instruments matter more than eyesight.';
-    } else if (depth >= 400) {
-      note = 'Twilight water. Blue light fades and the cold takes over.';
-    }
-
-    depthValue.textContent = depth.toLocaleString();
-    depthNote.textContent = note;
-    pressureValue.textContent = pressure.toLocaleString();
-    temperatureValue.textContent = temperature.toFixed(1);
-    lightValue.textContent = light.toString();
-    pressureBar.style.transform = `scaleX(${clamp(pressure / 201, 0, 1).toFixed(4)})`;
-    temperatureBar.style.transform = `scaleX(${clamp((temperature - 4) / 14, 0, 1).toFixed(4)})`;
-    lightBar.style.transform = `scaleX(${clamp(light / 100, 0, 1).toFixed(4)})`;
-  }, (rect) => {
-    const travelDistance = Math.max(window.innerHeight * 1.15, rect.height * 1.65);
-    return clamp((window.innerHeight - rect.top) / travelDistance, 0, 1);
-  });
-}
-
 const beatFive = document.querySelector('[data-family-scene]');
 const familyCards = beatFive ? Array.from(beatFive.querySelectorAll('[data-family-card]')) : [];
 const compactFamilySceneQuery = window.matchMedia('(max-width: 640px)');
