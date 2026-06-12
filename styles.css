@@ -362,6 +362,8 @@ a {
 .beat-section--follow-whale {
   --follow-whale-panel-count: 3;
   --follow-whale-progress: 0;
+  --follow-whale-gap: clamp(1.75rem, 3vw, 3.5rem);
+  --follow-whale-step: 0px;
   position: relative;
   min-height: calc(100svh + ((var(--follow-whale-panel-count) - 1) * 82svh) + 6rem);
   padding: 0;
@@ -396,18 +398,20 @@ a {
 
 .follow-whale-track {
   display: flex;
-  width: calc(var(--follow-whale-panel-count) * 100%);
+  gap: var(--follow-whale-gap);
+  width: max-content;
   transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
 .follow-whale-panel {
-  flex: 0 0 calc(100% / var(--follow-whale-panel-count));
-  min-width: calc(100% / var(--follow-whale-panel-count));
+  flex: 0 0 var(--follow-whale-step);
+  min-width: var(--follow-whale-step);
   display: grid;
-  grid-template-columns: minmax(0, 0.98fr) minmax(18rem, 0.82fr);
+  grid-template-columns: minmax(0, 0.72fr) minmax(34rem, 1.28fr);
   gap: clamp(1.5rem, 3vw, 3.5rem);
   align-items: center;
+  padding-inline: clamp(0.75rem, 1.5vw, 1.5rem);
 }
 
 .follow-whale-panel__copy {
@@ -445,7 +449,7 @@ a {
 
 .follow-whale-panel__media {
   position: relative;
-  min-height: clamp(20rem, 52vh, 32rem);
+  height: clamp(20rem, 42vh, 28rem);
   margin: 0;
   border: 1px solid rgba(170, 224, 255, 0.16);
   background:
@@ -454,6 +458,32 @@ a {
     inset 0 0 0 1px rgba(190, 235, 255, 0.04),
     0 18px 38px rgba(0, 0, 0, 0.22);
   overflow: hidden;
+  align-self: center;
+}
+
+.follow-whale-panel__media--filled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.follow-whale-panel__media--filled img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: clamp(20rem, 42vh, 28rem);
+  object-fit: contain;
+  object-position: center;
+  box-shadow:
+    inset 0 18px 24px -18px rgba(10, 10, 10, 0.98),
+    inset 0 -18px 24px -18px rgba(10, 10, 10, 0.98),
+    inset 18px 0 24px -18px rgba(10, 10, 10, 0.98),
+    inset -18px 0 24px -18px rgba(10, 10, 10, 0.98);
 }
 
 .follow-whale-panel__media::before {
@@ -486,6 +516,13 @@ a {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+}
+
+.follow-whale-panel__media--filled::before,
+.follow-whale-panel__media--filled::after,
+.carousel-frame--image::after,
+.media-placeholder--filled::after {
+  content: none;
 }
 
 .follow-whale-panel__media-note {
@@ -729,8 +766,7 @@ a {
   background: #101010;
 }
 
-.carousel-frame--image::before,
-.carousel-frame--image::after {
+.carousel-frame--image::before {
   content: none;
 }
 
@@ -739,6 +775,11 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  box-shadow:
+    inset 0 18px 24px -18px rgba(10, 10, 10, 0.98),
+    inset 0 -18px 24px -18px rgba(10, 10, 10, 0.98),
+    inset 18px 0 24px -18px rgba(10, 10, 10, 0.98),
+    inset -18px 0 24px -18px rgba(10, 10, 10, 0.98);
 }
 
 .carousel-control,
@@ -820,8 +861,7 @@ a {
   background: var(--surface-strong);
 }
 
-.media-placeholder--filled::before,
-.media-placeholder--filled::after {
+.media-placeholder--filled::before {
   content: none;
 }
 
@@ -830,6 +870,11 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  box-shadow:
+    inset 0 18px 24px -18px rgba(10, 10, 10, 0.98),
+    inset 0 -18px 24px -18px rgba(10, 10, 10, 0.98),
+    inset 18px 0 24px -18px rgba(10, 10, 10, 0.98),
+    inset -18px 0 24px -18px rgba(10, 10, 10, 0.98);
 }
 
 .media-placeholder--hero {
@@ -2149,7 +2194,7 @@ a {
   }
 
   .follow-whale-panel__media {
-    min-height: clamp(18rem, 42vw, 24rem);
+    height: clamp(18rem, 42vw, 24rem);
   }
 
   .beat-section--family {
@@ -2384,7 +2429,7 @@ a {
   }
 
   .follow-whale-panel__media {
-    min-height: 15rem;
+    height: 15rem;
   }
 
   .hero-copy h1 {

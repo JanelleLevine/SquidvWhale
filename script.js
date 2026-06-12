@@ -109,14 +109,54 @@ const registerScrollScene = (element, updateScene, getProgress) => {
   }
 
   let ticking = false;
+  let animationFrame = null;
+  let currentProgress = null;
+  let targetProgress = 0;
 
-  const renderScene = () => {
+  const settleThreshold = 0.00035;
+  const smoothingFactor = 0.075;
+
+  const measureProgress = () => {
     const rect = element.getBoundingClientRect();
-    const progress = getProgress
+    return getProgress
       ? getProgress(rect)
       : clamp((window.innerHeight - rect.top) / (window.innerHeight + rect.height), 0, 1);
+  };
 
-    updateScene(element, progress);
+  const animateScene = () => {
+    const shouldSnap = reducedMotionQuery.matches;
+
+    if (currentProgress === null || shouldSnap) {
+      currentProgress = targetProgress;
+    } else {
+      currentProgress += (targetProgress - currentProgress) * smoothingFactor;
+
+      if (Math.abs(targetProgress - currentProgress) < settleThreshold) {
+        currentProgress = targetProgress;
+      }
+    }
+
+    updateScene(element, currentProgress);
+
+    if (Math.abs(targetProgress - currentProgress) >= settleThreshold) {
+      animationFrame = window.requestAnimationFrame(animateScene);
+      return;
+    }
+
+    animationFrame = null;
+  };
+
+  const renderScene = () => {
+    targetProgress = measureProgress();
+
+    if (currentProgress === null) {
+      currentProgress = targetProgress;
+    }
+
+    if (animationFrame === null) {
+      animationFrame = window.requestAnimationFrame(animateScene);
+    }
+
     ticking = false;
   };
 
@@ -168,14 +208,21 @@ if (beatFive && familyCards.length > 0) {
 }
 
 const followWhaleScene = document.querySelector('[data-follow-whale-scene]');
+const followWhaleViewport = followWhaleScene ? followWhaleScene.querySelector('.follow-whale-viewport') : null;
 const followWhaleTrack = followWhaleScene ? followWhaleScene.querySelector('[data-follow-whale-track]') : null;
 const followWhalePanels = followWhaleScene ? Array.from(followWhaleScene.querySelectorAll('[data-follow-whale-panel]')) : [];
 const compactFollowWhaleQuery = window.matchMedia('(max-width: 960px)');
 
-if (followWhaleScene && followWhaleTrack && followWhalePanels.length > 0) {
+if (followWhaleScene && followWhaleViewport && followWhaleTrack && followWhalePanels.length > 0) {
   followWhaleScene.style.setProperty('--follow-whale-panel-count', String(followWhalePanels.length));
 
   registerScrollScene(followWhaleScene, (section, progress) => {
+    const viewportWidth = followWhaleViewport.clientWidth;
+    const trackStyles = window.getComputedStyle(followWhaleTrack);
+    const gap = parseFloat(trackStyles.gap || '0') || 0;
+
+    section.style.setProperty('--follow-whale-step', `${viewportWidth}px`);
+
     if (reducedMotionQuery.matches || compactFollowWhaleQuery.matches) {
       section.style.setProperty('--follow-whale-progress', '0.0000');
       followWhaleTrack.style.transform = 'translate3d(0, 0, 0)';
@@ -183,10 +230,10 @@ if (followWhaleScene && followWhaleTrack && followWhalePanels.length > 0) {
     }
 
     const sceneProgress = clamp((progress - 0.04) / 0.92, 0, 1);
-    const trackShift = sceneProgress * ((followWhalePanels.length - 1) / followWhalePanels.length) * 100;
+    const trackShift = sceneProgress * (followWhalePanels.length - 1) * (viewportWidth + gap);
 
     section.style.setProperty('--follow-whale-progress', sceneProgress.toFixed(4));
-    followWhaleTrack.style.transform = `translate3d(-${trackShift.toFixed(4)}%, 0, 0)`;
+    followWhaleTrack.style.transform = `translate3d(-${trackShift.toFixed(2)}px, 0, 0)`;
   }, (rect) => {
     const lockedDistance = Math.max(rect.height - window.innerHeight, 1);
     return clamp(-rect.top / lockedDistance, 0, 1);
