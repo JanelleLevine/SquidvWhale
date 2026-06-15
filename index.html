@@ -58,18 +58,16 @@
   <main id="top">
     <section class="beat-section beat-section--hero" id="beat-1" aria-labelledby="beat-1-title">
       <div class="shell">
-        <div class="hero-panel">
+        <div class="hero-panel" data-migration-host>
+          <div class="hero-panel__migration bottom-encounter__migration" data-migration-scene aria-hidden="true">
+            <div class="bottom-encounter__migration-field" data-migration-field></div>
+          </div>
           <div class="hero-copy">
             <h1 id="beat-1-title">Hero/Myth</h1>
             <div class="placeholder-copy placeholder-copy--hero">
               <p>For centuries, sailors have told legends about whales battling giant monsters beneath the waves. Breaching and beached sperm whales bore the scars of battles in the deep dark, sparking myths of lurking behemoths that lingered long past the age of dinosaurs. Predating modern marine science, Aristotle described a giant squid, and the Norse told the legend of the Kraken. But sailors could only describe what they could see - strange beaks, scars on whales and giant tentacles rising out of the water.</p>
               <p>Today, we know that there are real animals behind these myths: Meet the sperm whale (<em>Physeter macrocephalus</em>) and giant squid (<em>Archetuethis dux</em>). The real story is much more interesting: Both animals are locked in an evolutionary arms race, constantly adapting to better capture prey and evade other predators. Our subjects are historically misunderstood animals that are nearly opposites of each other, showcasing a spectrum of survival tools millions of years in the making.</p>
             </div>
-          </div>
-          <div class="hero-visual">
-            <figure class="hero-window">
-              <div class="hero-image-pan" role="img" aria-label="Sculptural image representing the squid versus whale story concept."></div>
-            </figure>
           </div>
           <aside class="contributor-note contributor-note--hero">
           </aside>
@@ -124,9 +122,6 @@
     </section>
 
     <section class="beat-section beat-section--detritus" id="beat-3" aria-labelledby="beat-3-title">
-        <video class="section-ambient-video section-ambient-video--detritus" data-ambient-video muted loop playsinline preload="metadata" aria-hidden="true">
-          <source src="CanvaVideos/detritus.mp4" type="video/mp4">
-        </video>
         <div class="shell">
           <div class="section-heading">
           <h2 id="beat-3-title">The Hunt</h2>
@@ -139,54 +134,30 @@
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor, eros a efficitur suscipit, sapien turpis tristique enim, vitae posuere lorem tellus nec risus.</p>
             </div>
           </div>
-          <section class="carousel-block" aria-label="Beat 3 carousel" data-carousel tabindex="0">
-            <div class="carousel-shell">
-              <button class="carousel-control" type="button" data-carousel-prev aria-label="Previous frame">
-                <span aria-hidden="true">&larr;</span>
-              </button>
-              <div class="carousel-viewport" aria-live="polite">
-                <div class="carousel-track" data-carousel-track>
-                  <article class="carousel-slide is-active" data-carousel-slide>
-                    <figure class="carousel-frame carousel-frame--image">
-                      <img src="assets/images/sperm-whale-socialization.jpg" alt="Pod of sperm whales socializing near the ocean surface.">
-                    </figure>
-                  </article>
-                  <article class="carousel-slide" data-carousel-slide>
-                    <div class="carousel-frame">
-                      <span>Frame 2</span>
-                    </div>
-                  </article>
-                  <article class="carousel-slide" data-carousel-slide>
-                    <div class="carousel-frame">
-                      <span>Frame 3</span>
-                    </div>
-                  </article>
-                </div>
-              </div>
-              <button class="carousel-control" type="button" data-carousel-next aria-label="Next frame">
-                <span aria-hidden="true">&rarr;</span>
-              </button>
-            </div>
-            <div class="carousel-indicators" aria-label="Choose frame">
-              <button class="carousel-indicator is-active" type="button" data-carousel-dot="0" aria-label="Go to frame 1"></button>
-              <button class="carousel-indicator" type="button" data-carousel-dot="1" aria-label="Go to frame 2"></button>
-              <button class="carousel-indicator" type="button" data-carousel-dot="2" aria-label="Go to frame 3"></button>
-            </div>
-          </section>
+          <div class="beat-three-hero-visual">
+            <figure class="hero-window hero-window--beat-three">
+              <div class="hero-image-pan" role="img" aria-label="Sculptural image representing the squid versus whale story concept."></div>
+            </figure>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="beat-section beat-section--survival" id="beat-4" aria-labelledby="beat-4-title">
         <div class="shell">
-          <div class="section-heading">
-          <h2 id="beat-4-title">The Science of Survival</h2>
-        </div>
-        <div class="placeholder-copy">
-          <ul>
-            <li>Cetologists use advanced technology to understand not just who these animals are, but how they use communication, perception, and specialized tools to survive in darkness and depth. One species is born with skills to evade capture, and one that passes those lessons down through generations. It turns out that these legendary &ldquo;sea monsters&rdquo; of old are both highly sophisticated survivalists in a changing world.</li>
-            <li>All squids- including <em>A. dux</em>- are precocial, while sperm whales (<em>P. macrocephalus</em>) are altricial. Let&rsquo;s examine the evolutionary arms race between these seemingly-opposite masters of the deep:</li>
-          </ul>
+        <div class="placeholder-copy placeholder-copy--survival-intro">
+          <div class="survival-intro-feature">
+            <video class="section-ambient-video section-ambient-video--detritus section-ambient-video--survival-intro" data-ambient-video muted loop playsinline preload="metadata" aria-hidden="true">
+              <source src="CanvaVideos/detritus.mp4" type="video/mp4">
+            </video>
+            <div class="survival-intro-feature__inner">
+              <div class="section-heading section-heading--survival-intro">
+                <h2 id="beat-4-title">The Science of Survival</h2>
+              </div>
+              <p>Cetologists use advanced technology to understand not just who these animals are, but how they use communication, perception, and specialized tools to survive in darkness and depth. One species is born with skills to evade capture, and one that passes those lessons down through generations. It turns out that these legendary &ldquo;sea monsters&rdquo; of old are both highly sophisticated survivalists in a changing world.</p>
+            </div>
+          </div>
+          <p class="survival-intro-followup">All squids- including <em>A. dux</em>- are precocial, while sperm whales (<em>P. macrocephalus</em>) are altricial. Let&rsquo;s examine the evolutionary arms race between these seemingly-opposite masters of the deep:</p>
         </div>
         <div class="wire-grid wire-grid--survival">
           <div class="survival-column">
@@ -464,15 +435,16 @@
             <img class="bottom-encounter__squid-eye-highlight" src="assets/images/giant_squid_silhouette_transparent.png" alt="" aria-hidden="true" loading="lazy">
           </div>
         </div>
-        <div class="bottom-encounter" data-bottom-encounter>
+        <div class="bottom-encounter bottom-encounter--scene-six" data-bottom-encounter>
           <div class="bottom-encounter__explainer">
             <h3>6</h3>
             <div class="placeholder-copy">
               <p>Add the final interpretive text here to explain the encounter, compare the two animals, or leave visitors with the main takeaway from the story.</p>
             </div>
           </div>
-          <img class="bottom-encounter__silhouette bottom-encounter__silhouette--squid" src="assets/images/giant_squid_silhouette_transparent.png" alt="" loading="lazy">
-          <img class="bottom-encounter__silhouette bottom-encounter__silhouette--whale" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
+          <div class="bottom-encounter__migration" data-migration-scene aria-hidden="true">
+            <div class="bottom-encounter__migration-field" data-migration-field></div>
+          </div>
         </div>
       </div>
     </section>
