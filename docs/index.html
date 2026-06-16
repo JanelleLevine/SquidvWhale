@@ -58,10 +58,7 @@
   <main id="top">
     <section class="beat-section beat-section--hero" id="beat-1" aria-labelledby="beat-1-title">
       <div class="shell">
-        <div class="hero-panel" data-migration-host>
-          <div class="hero-panel__migration bottom-encounter__migration" data-migration-scene aria-hidden="true">
-            <div class="bottom-encounter__migration-field" data-migration-field></div>
-          </div>
+        <div class="hero-panel">
           <div class="hero-copy">
             <h1 id="beat-1-title">Hero/Myth</h1>
             <div class="placeholder-copy placeholder-copy--hero">
@@ -69,8 +66,11 @@
               <p>Today, we know that there are real animals behind these myths: Meet the sperm whale (<em>Physeter macrocephalus</em>) and giant squid (<em>Archetuethis dux</em>). The real story is much more interesting: Both animals are locked in an evolutionary arms race, constantly adapting to better capture prey and evade other predators. Our subjects are historically misunderstood animals that are nearly opposites of each other, showcasing a spectrum of survival tools millions of years in the making.</p>
             </div>
           </div>
-          <aside class="contributor-note contributor-note--hero">
-          </aside>
+          <figure class="hero-visual hero-visual--myth">
+            <div class="hero-window hero-window--myth">
+              <div class="hero-image-pan" role="img" aria-label="Sculptural image representing the squid versus whale story concept."></div>
+            </div>
+          </figure>
         </div>
       </div>
     </section>
@@ -126,18 +126,13 @@
           <div class="section-heading">
           <h2 id="beat-3-title">The Hunt</h2>
         </div>
-        <div class="wire-grid wire-grid--beat-3">
+        <div class="wire-grid">
           <div class="wire-copy-block">
             <div class="placeholder-copy">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere, justo eu feugiat pulvinar, lorem tellus vulputate sem, id luctus ipsum neque sed nibh.</p>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur feugiat, lacus sit amet faucibus varius, nibh nisl gravida nibh, vitae hendrerit nunc libero a neque.</p>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor, eros a efficitur suscipit, sapien turpis tristique enim, vitae posuere lorem tellus nec risus.</p>
             </div>
-          </div>
-          <div class="beat-three-hero-visual">
-            <figure class="hero-window hero-window--beat-three">
-              <div class="hero-image-pan" role="img" aria-label="Sculptural image representing the squid versus whale story concept."></div>
-            </figure>
           </div>
         </div>
       </div>
@@ -435,19 +430,14 @@
             <img class="bottom-encounter__squid-eye-highlight" src="assets/images/giant_squid_silhouette_transparent.png" alt="" aria-hidden="true" loading="lazy">
           </div>
         </div>
-        <div class="bottom-encounter bottom-encounter--scene-six" data-bottom-encounter>
-          <div class="bottom-encounter__explainer">
-            <h3>6</h3>
-            <div class="placeholder-copy">
-              <p>Add the final interpretive text here to explain the encounter, compare the two animals, or leave visitors with the main takeaway from the story.</p>
-            </div>
-          </div>
-          <div class="bottom-encounter__migration" data-migration-scene aria-hidden="true">
-            <div class="bottom-encounter__migration-field" data-migration-field></div>
-          </div>
-        </div>
       </div>
     </section>
+
+    <div class="migration-finale" data-migration-host aria-hidden="true">
+      <div class="migration-finale__scene bottom-encounter__migration" data-migration-scene>
+        <div class="bottom-encounter__migration-field" data-migration-field></div>
+      </div>
+    </div>
   </main>
 
   <script src="script.js"></script>

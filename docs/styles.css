@@ -563,23 +563,21 @@ a {
 }
 
 .hero-panel {
-  --bottom-encounter-progress: 0.5;
-  --bottom-encounter-whale: 1;
-  --bottom-encounter-squid: 1;
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: clamp(2rem, 4vw, 3.5rem);
-  justify-items: center;
+  grid-template-columns: minmax(18rem, 38rem) minmax(20rem, 44rem);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  justify-content: center;
+  justify-items: stretch;
   align-items: center;
   width: 100vw;
-  min-height: min(92svh, 58rem);
+  min-height: min(82svh, 50rem);
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   padding:
-    clamp(1.4rem, 3.8vw, 2.8rem)
+    clamp(3.75rem, 7vw, 5.25rem)
     clamp(1.5rem, 6vw, 5rem)
-    clamp(4.75rem, 8vw, 6.25rem);
+    clamp(4rem, 8vw, 5.5rem);
   border-radius: 0;
   background: var(--bg);
   overflow: hidden;
@@ -616,43 +614,78 @@ a {
   z-index: 2;
 }
 
-.hero-panel__migration {
-  inset: -34% -6% -10%;
+.migration-finale {
+  --bottom-encounter-progress: 0.5;
+  --bottom-encounter-whale: 1;
+  --bottom-encounter-squid: 1;
+  position: relative;
+  width: 100vw;
+  max-width: 100vw;
+  min-height: clamp(24rem, 52vw, 38rem);
+  margin-inline: calc(50% - 50vw);
+  background: var(--bg);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.migration-finale::before,
+.migration-finale::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.migration-finale::before {
   z-index: 0;
+  background:
+    linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(10, 10, 10, 0.2) 18%, rgba(10, 10, 10, 0) 40%),
+    radial-gradient(circle at 50% 112%, rgba(140, 188, 255, 0.08) 0%, rgba(140, 188, 255, 0) 48%);
+}
+
+.migration-finale::after {
+  z-index: 2;
+  background:
+    linear-gradient(180deg, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.1) 72%, rgba(10, 10, 10, 0.78) 100%);
+}
+
+.migration-finale__scene {
+  inset: -34% -6% -10%;
+  z-index: 1;
   opacity: 1;
   transform: translate3d(0, -6%, 0) scale(1.04);
 }
 
-.hero-panel__migration::before {
+.migration-finale__scene::before {
   opacity: 0.16;
 }
 
-.hero-panel__migration::after {
+.migration-finale__scene::after {
   opacity: 0.18;
 }
 
-.hero-panel .bottom-encounter__creature {
+.migration-finale .bottom-encounter__creature {
   opacity: calc(var(--creature-progress) * var(--creature-opacity) * 1.24);
 }
 
-.hero-panel .bottom-encounter__creature--background {
+.migration-finale .bottom-encounter__creature--background {
   opacity: calc(var(--creature-progress) * var(--creature-opacity) * 0.82);
 }
 
-.hero-panel .bottom-encounter__creature-body {
+.migration-finale .bottom-encounter__creature-body {
   animation: hero-creature-traverse var(--creature-drift-duration) linear infinite;
   animation-delay: var(--creature-drift-delay);
 }
 
-.hero-panel .bottom-encounter__creature--whale {
+.migration-finale .bottom-encounter__creature--whale {
   --creature-base-size: clamp(17rem, 31vw, 26rem);
 }
 
-.hero-panel .bottom-encounter__creature--squid {
+.migration-finale .bottom-encounter__creature--squid {
   --creature-base-size: clamp(9.5rem, 18vw, 15.5rem);
 }
 
-.hero-panel .bottom-encounter__creature--whale .bottom-encounter__creature-body {
+.migration-finale .bottom-encounter__creature--whale .bottom-encounter__creature-body {
   filter:
     brightness(0)
     saturate(0)
@@ -666,7 +699,7 @@ a {
     drop-shadow(0 0 24px rgba(154, 198, 255, var(--creature-hero-outer-glow, 0.18)));
 }
 
-.hero-panel .bottom-encounter__creature--squid .bottom-encounter__creature-body {
+.migration-finale .bottom-encounter__creature--squid .bottom-encounter__creature-body {
   filter:
     brightness(0)
     saturate(0)
@@ -681,17 +714,18 @@ a {
 }
 
 .hero-copy {
-  width: min(calc(100% - 3rem), 48rem);
-  max-width: 48rem;
-  margin-inline: auto;
-  padding: clamp(0.9rem, 1.45vw, 1.1rem) clamp(1.1rem, 1.9vw, 1.35rem);
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: clamp(1rem, 1.8vw, 1.35rem) clamp(1.15rem, 2vw, 1.45rem);
   background: rgba(10, 10, 10, 0.88);
   border-radius: 1rem;
   box-shadow:
     0 18px 42px rgba(0, 0, 0, 0.22),
     inset 0 0 0 1px rgba(255, 255, 255, 0.02);
   isolation: isolate;
-  text-align: center;
+  justify-self: start;
+  text-align: left;
 }
 
 .hero-copy::before {
@@ -699,7 +733,7 @@ a {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: min(76vw, 40rem);
+  width: calc(100% + clamp(2.5rem, 5vw, 4rem));
   height: calc(100% + clamp(1.25rem, 2.4vw, 2rem));
   transform: translate(-50%, -50%);
   z-index: -1;
@@ -762,11 +796,11 @@ a {
 }
 
 .placeholder-copy--hero {
-  width: min(100%, 60ch);
-  max-width: 60ch;
+  width: 100%;
+  max-width: none;
   margin-top: 1.75rem;
   gap: 1.35rem;
-  margin-inline: auto;
+  margin-inline: 0;
 }
 
 .placeholder-copy--hero p {
@@ -785,21 +819,33 @@ a {
 
 .hero-visual {
   position: relative;
-  min-height: 720px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  width: 100%;
+  min-height: clamp(24rem, 40vw, 36rem);
+  margin: 0;
+  justify-self: stretch;
   overflow: visible;
 }
 
 .hero-window {
   position: relative;
   width: 100%;
-  max-width: 580px;
-  height: clamp(560px, 78vh, 760px);
   margin: 0;
   overflow: hidden;
   background: var(--bg);
+}
+
+.hero-window--myth {
+  width: 100%;
+  max-width: none;
+  height: clamp(24rem, 40vw, 36rem);
+  margin-left: auto;
+  border-radius: 1rem;
+  box-shadow:
+    0 24px 56px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .hero-window::after {
@@ -2128,17 +2174,6 @@ a {
   z-index: 2;
 }
 
-.bottom-encounter--scene-six {
-  min-height: clamp(30rem, 68vw, 46rem);
-}
-
-.bottom-encounter--scene-six .bottom-encounter__explainer {
-  top: 52%;
-  width: clamp(14rem, 19vw, 16rem);
-  min-height: clamp(13.5rem, 20vw, 17rem);
-  z-index: 5;
-}
-
 .bottom-encounter__migration {
   position: absolute;
   inset: 0;
@@ -2422,11 +2457,6 @@ a {
     transform: none;
   }
 
-  .hero-panel .bottom-encounter__creature-body {
-    animation: none;
-    transform: none;
-  }
-
   .bottom-encounter--scene-two.is-sonar-active .bottom-encounter__sonar-ring {
     animation: none;
     opacity: 0.6;
@@ -2688,16 +2718,6 @@ a {
     width: clamp(20rem, 64vw, 34rem);
   }
 
-  .bottom-encounter--scene-six {
-    min-height: clamp(32rem, 86vw, 42rem);
-  }
-
-  .bottom-encounter--scene-six .bottom-encounter__explainer {
-    top: 54%;
-    width: clamp(13rem, 24vw, 15.25rem);
-    min-height: clamp(13rem, 25vw, 16rem);
-  }
-
   .bottom-encounter__creature--whale {
     --creature-base-size: clamp(14.25rem, 34vw, 22rem);
   }
@@ -2717,21 +2737,45 @@ a {
   }
 
   .hero-panel {
-    min-height: min(88svh, 54rem);
+    grid-template-columns: 1fr;
+    justify-items: center;
+    min-height: auto;
     padding:
-      clamp(1.8rem, 4.8vw, 3rem)
+      clamp(3.4rem, 7vw, 4.5rem)
       clamp(1.25rem, 5vw, 3rem)
-      clamp(4.25rem, 8vw, 5.35rem);
+      clamp(3.8rem, 7vw, 4.8rem);
   }
 
   .hero-copy {
     width: min(calc(100% - 2.5rem), 40rem);
     max-width: 40rem;
+    justify-self: center;
+    text-align: center;
+  }
+
+  .migration-finale {
+    min-height: clamp(22rem, 66vw, 32rem);
   }
 
   .hero-copy::before {
     width: min(94vw, 48rem);
     height: calc(100% + 5rem);
+  }
+
+  .placeholder-copy--hero {
+    margin-inline: auto;
+  }
+
+  .hero-visual {
+    width: min(calc(100% - 2.5rem), 42rem);
+    min-height: auto;
+    justify-self: center;
+  }
+
+  .hero-window--myth {
+    max-width: 42rem;
+    height: clamp(22rem, 62vw, 32rem);
+    margin-inline: auto;
   }
 
   .hero-window--beat-three {
@@ -2859,8 +2903,9 @@ a {
   }
 
   .hero-panel {
-    min-height: clamp(46rem, 138vw, 56rem);
-    padding: 2.9rem 1rem 4.8rem;
+    min-height: auto;
+    gap: 1.5rem;
+    padding: 3rem 1rem 3.25rem;
   }
 
   .follow-whale-track {
@@ -2892,6 +2937,19 @@ a {
   .hero-copy::before {
     width: min(90vw, 27rem);
     height: calc(100% + 3.75rem);
+  }
+
+  .hero-visual {
+    width: min(calc(100% - 1rem), 24rem);
+  }
+
+  .hero-window--myth {
+    max-width: 24rem;
+    height: clamp(18rem, 82vw, 24rem);
+  }
+
+  .migration-finale {
+    min-height: clamp(18rem, 92vw, 24rem);
   }
 
   .hero-window--beat-three {
@@ -3017,19 +3075,6 @@ a {
     bottom: clamp(-5rem, -8vw, -1rem);
     width: clamp(18rem, 96vw, 30rem);
     opacity: calc(var(--bottom-encounter-squid) * 0.52);
-  }
-
-  .bottom-encounter--scene-six {
-    min-height: clamp(36rem, 138vw, 44rem);
-  }
-
-  .bottom-encounter--scene-six .bottom-encounter__explainer {
-    top: auto;
-    bottom: clamp(1rem, 4vw, 1.5rem);
-    left: 50%;
-    width: min(calc(100% - 1.5rem), 18rem);
-    min-height: auto;
-    transform: translate3d(-50%, 0, 0);
   }
 
   .bottom-encounter__creature--background {
