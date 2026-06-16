@@ -1,0 +1,25 @@
+#!/bin/sh
+set -eu
+
+staged="$(git diff --cached --name-only --diff-filter=ACMR)"
+
+if [ -z "$staged" ]; then
+  exit 0
+fi
+
+blocked="$(printf '%s\n' "$staged" | grep -E '^(index\.html|styles\.css|script\.js|assets/|Canva/|CanvaVideos/|Chromatophores/)' || true)"
+
+if [ -n "$blocked" ]; then
+  echo "Commit blocked."
+  echo "The canonical site lives in docs/."
+  echo "Edit docs/index.html, docs/styles.css, docs/script.js, and docs/* assets instead."
+  echo
+  echo "Blocked staged paths:"
+  printf '  %s\n' "$blocked"
+  echo
+  echo "Root index.html is redirect-only."
+  echo "If you intentionally need to bypass this guard, use: git commit --no-verify"
+  exit 1
+fi
+
+exit 0

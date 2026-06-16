@@ -1,0 +1,31 @@
+#!/bin/sh
+set -eu
+
+upstream="$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || true)"
+
+if [ -z "$upstream" ]; then
+  exit 0
+fi
+
+changed="$(git diff --name-only "$upstream..HEAD")"
+
+if [ -z "$changed" ]; then
+  exit 0
+fi
+
+blocked="$(printf '%s\n' "$changed" | grep -E '^(index\.html|styles\.css|script\.js|assets/|Canva/|CanvaVideos/|Chromatophores/)' || true)"
+
+if [ -n "$blocked" ]; then
+  echo "Push blocked."
+  echo "The canonical site lives in docs/."
+  echo "Push changes from docs/index.html, docs/styles.css, docs/script.js, and docs/* assets instead."
+  echo
+  echo "Blocked paths in commits being pushed:"
+  printf '  %s\n' "$blocked"
+  echo
+  echo "Root index.html is redirect-only."
+  echo "If you intentionally need to bypass this guard, use: git push --no-verify"
+  exit 1
+fi
+
+exit 0
