@@ -2112,6 +2112,8 @@ a {
 }
 
 .bottom-encounter__scene-six-squid-image {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: auto;
@@ -2140,6 +2142,8 @@ a {
   transform-origin: center;
   will-change: opacity;
   animation: scene-six-eye-cover-fade 5.2s ease-in-out infinite;
+  z-index: 2;
+  pointer-events: none;
 }
 
 @keyframes scene-six-eye-cover-fade {
@@ -2446,11 +2450,6 @@ a {
     animation: none;
     opacity: 0.6;
     transform: scale(0.78);
-  }
-
-  .bottom-encounter__scene-six-eye-cover {
-    animation: none;
-    opacity: 0;
   }
 
 }

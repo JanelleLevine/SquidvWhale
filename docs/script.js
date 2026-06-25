@@ -124,6 +124,16 @@ if (ambientVideos.length > 0) {
 
 const maskedVideos = Array.from(document.querySelectorAll('[data-masked-video]'));
 
+maskedVideos.forEach((video) => {
+  video.muted = true;
+  video.defaultMuted = true;
+  video.loop = true;
+  video.playsInline = true;
+  video.setAttribute('muted', '');
+  video.setAttribute('loop', '');
+  video.setAttribute('playsinline', '');
+});
+
 if (maskedVideos.length > 0) {
   const squidMaskSrc = 'assets/images/giant_squid_silhouette_transparent.png';
 
@@ -281,9 +291,17 @@ if (maskedVideos.length > 0) {
   });
 
   const syncMaskedEntry = (entry, shouldPlay) => {
-    syncAmbientVideo(entry.video, shouldPlay);
+    if (!shouldPlay) {
+      entry.video.pause();
+    } else {
+      const playAttempt = entry.video.play();
 
-    if (!shouldPlay || reducedMotionQuery.matches) {
+      if (playAttempt && typeof playAttempt.catch === 'function') {
+        playAttempt.catch(() => {});
+      }
+    }
+
+    if (!shouldPlay) {
       stopMaskedVideoLoop(entry);
       renderMaskedVideo(entry);
       return;
