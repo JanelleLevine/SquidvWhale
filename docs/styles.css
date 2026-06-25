@@ -2023,8 +2023,6 @@ a {
 }
 
 .bottom-encounter--scene-five {
-  --scene-five-ink-swallow: 0;
-  --scene-five-ink-bloom: 0;
   min-height: clamp(30rem, 66vw, 44rem);
 }
 
@@ -2052,126 +2050,113 @@ a {
   pointer-events: none;
 }
 
-.bottom-encounter__squid-tint {
-  position: absolute;
-  inset: 0;
-  background: #9c0005;
-  mask-image: url("assets/images/giant_squid_silhouette_transparent.png");
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: contain;
-  -webkit-mask-image: url("assets/images/giant_squid_silhouette_transparent.png");
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  -webkit-mask-size: contain;
-  filter:
-    drop-shadow(0 0 8px rgba(80, 0, 6, 0.18))
-    drop-shadow(0 0 22px rgba(156, 0, 5, 0.1));
-  z-index: 1;
-}
-
-.bottom-encounter--scene-five .bottom-encounter__squid-tint {
-  display: none;
-}
-
 .bottom-encounter--scene-five .bottom-encounter__ink-squid-group {
-  left: clamp(-11rem, -14vw, -3rem);
-  bottom: clamp(-9rem, -10vw, -2rem);
-  width: clamp(23rem, 58vw, 46rem);
-  opacity: calc(var(--bottom-encounter-squid) * 0.58);
-  overflow: hidden;
-  background: var(--bg);
-  transform: translate3d(calc((1 - var(--bottom-encounter-squid)) * -138px), calc((1 - var(--bottom-encounter-squid)) * 42px), 0) scale(calc(0.84 + var(--bottom-encounter-squid) * 0.16));
+  left: clamp(-8rem, -10vw, -2rem);
+  bottom: clamp(-5rem, -8vw, -1.5rem);
+  width: clamp(15rem, 38vw, 32rem);
+  height: clamp(18.75rem, 47.5vw, 40rem);
+  opacity: 1;
+  transform: none;
   z-index: 2;
 }
 
-.bottom-encounter__ink-backdrop {
-  position: absolute;
-  inset: -14% -10% -16% -8%;
-  background: var(--bg);
-  transform: rotate(11deg) scale(1.08);
-  transform-origin: center;
-  filter: none;
-  opacity: 1;
-  z-index: 0;
-}
-
-.bottom-encounter--scene-five .bottom-encounter__ink-backdrop {
-  display: none;
-}
-
 .bottom-encounter--scene-five .bottom-encounter__ink-squid-group::before {
-  display: none;
+  content: none;
 }
 
 .bottom-encounter--scene-five .bottom-encounter__ink-squid-group::after {
-  inset: 0;
-  background: var(--bg);
-  opacity: calc(var(--scene-five-ink-swallow) * 0.32);
-  transform: none;
-  filter: none;
-  z-index: 3;
+  content: none;
 }
 
-.bottom-encounter--scene-five .bottom-encounter__ink-squid-group .bottom-encounter__silhouette--squid {
-  position: relative;
-  left: auto;
-  bottom: auto;
-  width: 100%;
-  opacity: calc(1 - (var(--scene-five-ink-swallow) * 0.42));
-  transform: rotate(-11deg);
-  filter:
-    brightness(0)
-    saturate(100%)
-    invert(7%)
-    sepia(92%)
-    saturate(4920%)
-    hue-rotate(352deg)
-    brightness(50%)
-    contrast(116%);
-  z-index: 1;
-}
-
-.bottom-encounter__squid-eye-highlight {
+.bottom-encounter__squid-ink-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  clip-path: ellipse(14% 11% at 50.5% 47%);
-  opacity: calc(0.92 - (var(--scene-five-ink-swallow) * 0.34));
-  mix-blend-mode: screen;
+  display: block;
   filter:
-    brightness(2.4)
-    contrast(1.1)
-    drop-shadow(0 0 6px rgba(255, 248, 244, 0.34))
-    drop-shadow(0 0 18px rgba(255, 244, 232, 0.2));
-  z-index: 4;
-  transform: rotate(-11deg);
-  transform-origin: center;
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.2))
+    drop-shadow(0 0 16px rgba(227, 236, 255, 0.18))
+    drop-shadow(0 0 48px rgba(126, 170, 255, 0.18));
   pointer-events: none;
 }
 
 .bottom-encounter__squid-ink-video {
   position: absolute;
   inset: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bottom-encounter--scene-six {
+  min-height: clamp(30rem, 66vw, 44rem);
+}
+
+.bottom-encounter--scene-six .bottom-encounter__explainer {
+  top: 50%;
+  left: auto;
+  right: clamp(1.5rem, 4vw, 4rem);
+  width: clamp(12rem, 18vw, 15rem);
+  min-height: clamp(15rem, 24vw, 21rem);
+  text-align: left;
+  transform: translate3d(0, calc(-50% + ((1 - var(--bottom-encounter-progress)) * 1.25rem)), 0);
+  z-index: 4;
+}
+
+.bottom-encounter__scene-six-squid {
+  position: absolute;
+  overflow: visible;
+  filter: none;
+}
+
+.bottom-encounter__scene-six-squid-image {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  mix-blend-mode: multiply;
-  opacity: calc(0.88 + (var(--scene-five-ink-swallow) * 0.08));
-  filter: grayscale(1) contrast(1.22) brightness(calc(1.02 - (var(--scene-five-ink-swallow) * 0.06)));
-  transform: none;
-  mask-image: url("assets/images/giant_squid_silhouette_transparent.png");
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: 104% auto;
-  -webkit-mask-image: url("assets/images/giant_squid_silhouette_transparent.png");
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  -webkit-mask-size: 104% auto;
-  z-index: 2;
+  height: auto;
+  filter:
+    brightness(1)
+    saturate(0)
+    contrast(1.08)
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.2))
+    drop-shadow(0 0 16px rgba(227, 236, 255, 0.18))
+    drop-shadow(0 0 48px rgba(126, 170, 255, 0.18));
+}
+
+.bottom-encounter__scene-six-eye-cover {
+  position: absolute;
+  left: 50.9%;
+  top: 37.1%;
+  width: 8.6%;
+  height: 6.5%;
+  background: var(--bg);
+  border-radius: 999px;
+  box-shadow:
+    0 0 8px var(--bg),
+    0 0 16px var(--bg);
+  opacity: 1;
+  transform: rotate(-8deg);
+  transform-origin: center;
+  will-change: opacity;
+  animation: scene-six-eye-cover-fade 5.2s ease-in-out infinite;
+}
+
+@keyframes scene-six-eye-cover-fade {
+  0%,
+  24%,
+  100% {
+    opacity: 1;
+  }
+
+  40%,
+  66% {
+    opacity: 0;
+  }
+
+  82% {
+    opacity: 1;
+  }
 }
 
 .bottom-encounter__migration {
@@ -2463,6 +2448,11 @@ a {
     transform: scale(0.78);
   }
 
+  .bottom-encounter__scene-six-eye-cover {
+    animation: none;
+    opacity: 0;
+  }
+
 }
 
 @keyframes hero-pan {
@@ -2713,9 +2703,20 @@ a {
   }
 
   .bottom-encounter--scene-five .bottom-encounter__ink-squid-group {
-    left: clamp(-10rem, -18vw, -3rem);
-    bottom: clamp(-7rem, -8vw, -1rem);
-    width: clamp(20rem, 64vw, 34rem);
+    left: clamp(-7rem, -16vw, -2rem);
+    bottom: clamp(-4rem, -7vw, -1rem);
+    width: clamp(14rem, 48vw, 26rem);
+    height: clamp(17.5rem, 60vw, 32.5rem);
+  }
+
+  .bottom-encounter--scene-six {
+    min-height: clamp(32rem, 86vw, 42rem);
+  }
+
+  .bottom-encounter--scene-six .bottom-encounter__explainer {
+    right: clamp(1rem, 3vw, 2rem);
+    width: clamp(11rem, 20vw, 13.5rem);
+    min-height: clamp(14rem, 26vw, 18rem);
   }
 
   .bottom-encounter__creature--whale {
@@ -3071,10 +3072,26 @@ a {
   }
 
   .bottom-encounter--scene-five .bottom-encounter__ink-squid-group {
-    left: clamp(-8rem, -28vw, -2rem);
-    bottom: clamp(-5rem, -8vw, -1rem);
-    width: clamp(18rem, 96vw, 30rem);
-    opacity: calc(var(--bottom-encounter-squid) * 0.52);
+    left: clamp(-6rem, -22vw, -2rem);
+    bottom: -8%;
+    width: clamp(13rem, 70vw, 22rem);
+    height: clamp(16.25rem, 87.5vw, 27.5rem);
+    opacity: 1;
+  }
+
+  .bottom-encounter--scene-six {
+    min-height: clamp(36rem, 136vw, 44rem);
+  }
+
+  .bottom-encounter--scene-six .bottom-encounter__explainer {
+    top: auto;
+    bottom: clamp(1rem, 4vw, 1.5rem);
+    left: auto;
+    right: 1rem;
+    width: min(12.5rem, calc(100% - 2rem));
+    min-height: 15rem;
+    text-align: left;
+    transform: translate3d(0, 0, 0);
   }
 
   .bottom-encounter__creature--background {

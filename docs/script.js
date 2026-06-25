@@ -61,24 +61,35 @@ const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
 const finePointerQuery = window.matchMedia('(pointer: fine)');
 const compactHeroMigrationQuery = window.matchMedia('(max-width: 900px)');
 
+ambientVideos.forEach((video) => {
+  video.muted = true;
+  video.defaultMuted = true;
+  video.loop = true;
+  video.playsInline = true;
+  video.setAttribute('muted', '');
+  video.setAttribute('loop', '');
+  video.setAttribute('playsinline', '');
+});
+
 const enableWheelScrollSmoothing = () => {
   return;
 };
 
 enableWheelScrollSmoothing();
 
-if (ambientVideos.length > 0) {
-  const syncAmbientVideo = (video, shouldPlay) => {
-    if (reducedMotionQuery.matches || !shouldPlay) {
-      video.pause();
-      return;
-    }
+const syncAmbientVideo = (video, shouldPlay) => {
+  if (reducedMotionQuery.matches || !shouldPlay) {
+    video.pause();
+    return;
+  }
 
-    const playAttempt = video.play();
-    if (playAttempt && typeof playAttempt.catch === 'function') {
-      playAttempt.catch(() => {});
-    }
-  };
+  const playAttempt = video.play();
+  if (playAttempt && typeof playAttempt.catch === 'function') {
+    playAttempt.catch(() => {});
+  }
+};
+
+if (ambientVideos.length > 0) {
 
   if ('IntersectionObserver' in window) {
     const ambientVideoObserver = new IntersectionObserver((entries) => {
@@ -109,6 +120,220 @@ if (ambientVideos.length > 0) {
   } else if (typeof reducedMotionQuery.addListener === 'function') {
     reducedMotionQuery.addListener(handleReducedMotionChange);
   }
+}
+
+const maskedVideos = Array.from(document.querySelectorAll('[data-masked-video]'));
+
+if (maskedVideos.length > 0) {
+  const squidMaskSrc = 'assets/images/giant_squid_silhouette_transparent.png';
+
+  const maskedVideoEntries = maskedVideos.map((video) => {
+    const host = video.closest('.bottom-encounter__ink-squid-group');
+    const canvas = host?.querySelector('.bottom-encounter__squid-ink-canvas');
+    const context = canvas?.getContext('2d');
+
+    if (!host || !canvas || !context) {
+      return null;
+    }
+
+    const mask = new Image();
+    mask.decoding = 'async';
+    mask.src = squidMaskSrc;
+
+    return {
+      canvas,
+      context,
+      frameRequest: null,
+      host,
+      mask,
+      maskReady: false,
+      video
+    };
+  }).filter(Boolean);
+
+  const resizeMaskedCanvas = (entry) => {
+    const rect = entry.host.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const width = Math.max(1, Math.round(rect.width * dpr));
+    const height = Math.max(1, Math.round(rect.height * dpr));
+
+    if (entry.canvas.width !== width || entry.canvas.height !== height) {
+      entry.canvas.width = width;
+      entry.canvas.height = height;
+    }
+  };
+
+  const drawVideoCover = (context, video, width, height) => {
+    const sourceWidth = video.videoWidth || 1;
+    const sourceHeight = video.videoHeight || 1;
+    const scale = Math.max(width / sourceWidth, height / sourceHeight);
+    const drawWidth = sourceWidth * scale;
+    const drawHeight = sourceHeight * scale;
+    const offsetX = (width - drawWidth) / 2;
+    const offsetY = (height - drawHeight) / 2;
+
+    context.drawImage(video, offsetX, offsetY, drawWidth, drawHeight);
+  };
+
+  const renderMaskedVideo = (entry) => {
+    if (!entry.maskReady) {
+      return;
+    }
+
+    resizeMaskedCanvas(entry);
+
+    const { canvas, context, mask, video } = entry;
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (video.readyState < 2) {
+      return;
+    }
+
+    drawVideoCover(context, video, canvas.width, canvas.height);
+    context.globalCompositeOperation = 'destination-in';
+    context.drawImage(mask, 0, 0, canvas.width, canvas.height);
+    context.globalCompositeOperation = 'source-over';
+  };
+
+  const stopMaskedVideoLoop = (entry) => {
+    if (!entry.frameRequest) {
+      return;
+    }
+
+    if (entry.frameRequest.type === 'video-frame' && typeof entry.video.cancelVideoFrameCallback === 'function') {
+      entry.video.cancelVideoFrameCallback(entry.frameRequest.id);
+    } else if (entry.frameRequest.type === 'raf') {
+      window.cancelAnimationFrame(entry.frameRequest.id);
+    }
+
+    entry.frameRequest = null;
+  };
+
+  const queueMaskedVideoFrame = (entry) => {
+    if (entry.frameRequest || entry.video.paused || entry.video.ended) {
+      return;
+    }
+
+    const tick = () => {
+      entry.frameRequest = null;
+      renderMaskedVideo(entry);
+
+      if (!entry.video.paused && !entry.video.ended) {
+        queueMaskedVideoFrame(entry);
+      }
+    };
+
+    if (typeof entry.video.requestVideoFrameCallback === 'function') {
+      entry.frameRequest = {
+        type: 'video-frame',
+        id: entry.video.requestVideoFrameCallback(() => {
+          tick();
+        })
+      };
+      return;
+    }
+
+    entry.frameRequest = {
+      type: 'raf',
+      id: window.requestAnimationFrame(() => {
+        tick();
+      })
+    };
+  };
+
+  maskedVideoEntries.forEach((entry) => {
+    entry.mask.addEventListener('load', () => {
+      entry.maskReady = true;
+      renderMaskedVideo(entry);
+
+      if (!entry.video.paused) {
+        queueMaskedVideoFrame(entry);
+      }
+    }, { once: true });
+
+    if (entry.mask.complete) {
+      entry.maskReady = true;
+      renderMaskedVideo(entry);
+
+      if (!entry.video.paused) {
+        queueMaskedVideoFrame(entry);
+      }
+    }
+
+    entry.video.addEventListener('loadeddata', () => {
+      renderMaskedVideo(entry);
+    });
+
+    entry.video.addEventListener('play', () => {
+      renderMaskedVideo(entry);
+      queueMaskedVideoFrame(entry);
+    });
+
+    entry.video.addEventListener('pause', () => {
+      stopMaskedVideoLoop(entry);
+      renderMaskedVideo(entry);
+    });
+
+    entry.video.addEventListener('ended', () => {
+      stopMaskedVideoLoop(entry);
+      renderMaskedVideo(entry);
+    });
+  });
+
+  const syncMaskedEntry = (entry, shouldPlay) => {
+    syncAmbientVideo(entry.video, shouldPlay);
+
+    if (!shouldPlay || reducedMotionQuery.matches) {
+      stopMaskedVideoLoop(entry);
+      renderMaskedVideo(entry);
+      return;
+    }
+
+    renderMaskedVideo(entry);
+    queueMaskedVideoFrame(entry);
+  };
+
+  if ('IntersectionObserver' in window) {
+    const maskedVideoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((observerEntry) => {
+        const maskedEntry = maskedVideoEntries.find((entry) => entry.host === observerEntry.target);
+
+        if (!maskedEntry) {
+          return;
+        }
+
+        syncMaskedEntry(maskedEntry, observerEntry.isIntersecting && observerEntry.intersectionRatio > 0.15);
+      });
+    }, {
+      threshold: [0.15, 0.4]
+    });
+
+    maskedVideoEntries.forEach((entry) => {
+      maskedVideoObserver.observe(entry.host);
+    });
+  } else {
+    maskedVideoEntries.forEach((entry) => {
+      syncMaskedEntry(entry, true);
+    });
+  }
+
+  const handleMaskedReducedMotionChange = () => {
+    maskedVideoEntries.forEach((entry) => {
+      syncMaskedEntry(entry, true);
+    });
+  };
+
+  if (typeof reducedMotionQuery.addEventListener === 'function') {
+    reducedMotionQuery.addEventListener('change', handleMaskedReducedMotionChange);
+  } else if (typeof reducedMotionQuery.addListener === 'function') {
+    reducedMotionQuery.addListener(handleMaskedReducedMotionChange);
+  }
+
+  window.addEventListener('resize', () => {
+    maskedVideoEntries.forEach((entry) => {
+      renderMaskedVideo(entry);
+    });
+  }, { passive: true });
 }
 
 const registerScrollScene = (element, updateScene, getProgress) => {
@@ -654,13 +879,6 @@ document.querySelectorAll('[data-bottom-encounter]').forEach((scene) => {
       element.style.setProperty('--scene-four-whale-two', whaleTwo.toFixed(4));
     }
 
-    if (element.classList.contains('bottom-encounter--scene-five')) {
-      const inkSwallow = clamp((progress - 0.18) / 0.58, 0, 1);
-      const inkBloom = clamp((progress - 0.06) / 0.72, 0, 1);
-
-      element.style.setProperty('--scene-five-ink-swallow', inkSwallow.toFixed(4));
-      element.style.setProperty('--scene-five-ink-bloom', inkBloom.toFixed(4));
-    }
   }, (rect) => {
     const revealDistance = Math.max(window.innerHeight * 1.45, rect.height * 1.7);
     return clamp((window.innerHeight - rect.top) / revealDistance, 0, 1);
