@@ -58,7 +58,6 @@ if (siteHeader) {
 
 const ambientVideos = Array.from(document.querySelectorAll('[data-ambient-video]'));
 const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-const finePointerQuery = window.matchMedia('(pointer: fine)');
 const compactHeroMigrationQuery = window.matchMedia('(max-width: 900px)');
 
 ambientVideos.forEach((video) => {
@@ -462,34 +461,75 @@ const followWhaleScene = document.querySelector('[data-follow-whale-scene]');
 const followWhaleViewport = followWhaleScene ? followWhaleScene.querySelector('.follow-whale-viewport') : null;
 const followWhaleTrack = followWhaleScene ? followWhaleScene.querySelector('[data-follow-whale-track]') : null;
 const followWhalePanels = followWhaleScene ? Array.from(followWhaleScene.querySelectorAll('[data-follow-whale-panel]')) : [];
+const beatFourScene = document.querySelector('[data-beat-four-scene]');
+const beatFourViewport = beatFourScene ? beatFourScene.querySelector('.beat-four-viewport') : null;
+const beatFourTrack = beatFourScene ? beatFourScene.querySelector('[data-beat-four-track]') : null;
+const beatFourPanels = beatFourScene ? Array.from(beatFourScene.querySelectorAll('[data-beat-four-panel]')) : [];
 const compactFollowWhaleQuery = window.matchMedia('(max-width: 960px)');
+const compactBeatFourQuery = window.matchMedia('(max-width: 720px)');
 
-if (followWhaleScene && followWhaleViewport && followWhaleTrack && followWhalePanels.length > 0) {
-  followWhaleScene.style.setProperty('--follow-whale-panel-count', String(followWhalePanels.length));
+const registerHorizontalPanels = ({
+  scene,
+  viewport,
+  track,
+  panels,
+  countVar,
+  stepVar,
+  progressVar,
+  getProgress,
+  compactQuery = compactFollowWhaleQuery
+}) => {
+  if (!scene || !viewport || !track || panels.length === 0) {
+    return;
+  }
 
-  registerScrollScene(followWhaleScene, (section, progress) => {
-    const viewportWidth = followWhaleViewport.clientWidth;
-    const trackStyles = window.getComputedStyle(followWhaleTrack);
+  scene.style.setProperty(countVar, String(panels.length));
+
+  registerScrollScene(scene, (section, progress) => {
+    const viewportWidth = viewport.clientWidth;
+    const trackStyles = window.getComputedStyle(track);
     const gap = parseFloat(trackStyles.gap || '0') || 0;
 
-    section.style.setProperty('--follow-whale-step', `${viewportWidth}px`);
+    section.style.setProperty(stepVar, `${viewportWidth}px`);
 
-    if (reducedMotionQuery.matches || compactFollowWhaleQuery.matches) {
-      section.style.setProperty('--follow-whale-progress', '0.0000');
-      followWhaleTrack.style.transform = 'translate3d(0, 0, 0)';
+    if (reducedMotionQuery.matches || compactQuery.matches) {
+      section.style.setProperty(progressVar, '0.0000');
+      track.style.transform = 'translate3d(0, 0, 0)';
       return;
     }
 
     const sceneProgress = clamp((progress - 0.04) / 0.92, 0, 1);
-    const trackShift = sceneProgress * (followWhalePanels.length - 1) * (viewportWidth + gap);
+    const trackShift = sceneProgress * (panels.length - 1) * (viewportWidth + gap);
 
-    section.style.setProperty('--follow-whale-progress', sceneProgress.toFixed(4));
-    followWhaleTrack.style.transform = `translate3d(-${trackShift.toFixed(2)}px, 0, 0)`;
-  }, (rect) => {
+    section.style.setProperty(progressVar, sceneProgress.toFixed(4));
+    track.style.transform = `translate3d(-${trackShift.toFixed(2)}px, 0, 0)`;
+  }, getProgress || ((rect) => {
     const lockedDistance = Math.max(rect.height - window.innerHeight, 1);
     return clamp(-rect.top / lockedDistance, 0, 1);
-  });
-}
+  }));
+};
+
+registerHorizontalPanels({
+  scene: followWhaleScene,
+  viewport: followWhaleViewport,
+  track: followWhaleTrack,
+  panels: followWhalePanels,
+  countVar: '--follow-whale-panel-count',
+  stepVar: '--follow-whale-step',
+  progressVar: '--follow-whale-progress',
+  compactQuery: compactFollowWhaleQuery
+});
+
+registerHorizontalPanels({
+  scene: beatFourScene,
+  viewport: beatFourViewport,
+  track: beatFourTrack,
+  panels: beatFourPanels,
+  countVar: '--beat-four-panel-count',
+  stepVar: '--beat-four-step',
+  progressVar: '--beat-four-progress',
+  compactQuery: compactBeatFourQuery
+});
 
 const migrationSceneStates = new Map();
 
