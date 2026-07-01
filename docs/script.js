@@ -533,6 +533,193 @@ registerHorizontalPanels({
   compactQuery: compactBeatFourQuery
 });
 
+const visionPanels = Array.from(document.querySelectorAll('.beat-four-wire--vision'));
+
+if (visionPanels.length > 0) {
+  const connectorStates = visionPanels.map((panel) => {
+    const overlay = panel.querySelector('.beat-four-wire__connectors');
+
+    if (!overlay) {
+      return null;
+    }
+
+    return {
+      cards: {
+        body: panel.querySelector('[data-vision-card="body"]'),
+        ink: panel.querySelector('[data-vision-card="ink"]'),
+        lead: panel.querySelector('[data-vision-card="lead"]')
+      },
+      groups: {
+        body: overlay.querySelector('[data-vision-link="body"]'),
+        ink: overlay.querySelector('[data-vision-link="ink"]'),
+        lead: overlay.querySelector('[data-vision-link="lead"]')
+      },
+      overlay,
+      panel,
+      sources: {
+        body: panel.querySelector('[data-vision-animal="body"]'),
+        ink: panel.querySelector('[data-vision-animal="ink"]'),
+        lead: panel.querySelector('[data-vision-animal="lead"]')
+      }
+    };
+  }).filter(Boolean);
+
+  const setConnectorVisibility = (group, isVisible) => {
+    if (!group) {
+      return;
+    }
+
+    group.style.opacity = isVisible ? '1' : '0';
+  };
+
+  const getRectRelativeToPanel = (element, panelRect) => {
+    const rect = element.getBoundingClientRect();
+
+    return {
+      bottom: rect.bottom - panelRect.top,
+      height: rect.height,
+      left: rect.left - panelRect.left,
+      right: rect.right - panelRect.left,
+      top: rect.top - panelRect.top,
+      width: rect.width
+    };
+  };
+
+  const getRectCenter = (rect) => ({
+    x: rect.left + (rect.width / 2),
+    y: rect.top + (rect.height / 2)
+  });
+
+  const getRectEdgePoint = (rect, towardPoint) => {
+    const center = getRectCenter(rect);
+    const dx = towardPoint.x - center.x;
+    const dy = towardPoint.y - center.y;
+
+    if (dx === 0 && dy === 0) {
+      return center;
+    }
+
+    const halfWidth = Math.max(rect.width / 2, 1);
+    const halfHeight = Math.max(rect.height / 2, 1);
+    const scale = 1 / Math.max(Math.abs(dx) / halfWidth, Math.abs(dy) / halfHeight);
+
+    return {
+      x: center.x + (dx * scale),
+      y: center.y + (dy * scale)
+    };
+  };
+
+  const buildConnectorPath = (startPoint, endPoint) => {
+    const dx = endPoint.x - startPoint.x;
+    const dy = endPoint.y - startPoint.y;
+    const horizontalDirection = dx >= 0 ? 1 : -1;
+    const horizontalCurve = clamp(Math.abs(dx) * 0.34, 18, 120);
+    const verticalCurve = clamp(Math.abs(dy) * 0.16, 0, 34);
+    const c1x = startPoint.x + (horizontalCurve * horizontalDirection);
+    const c1y = startPoint.y + (verticalCurve * Math.sign(dy || 1));
+    const c2x = endPoint.x - (horizontalCurve * horizontalDirection);
+    const c2y = endPoint.y - (verticalCurve * Math.sign(dy || 1));
+
+    return `M ${startPoint.x.toFixed(2)} ${startPoint.y.toFixed(2)} C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${endPoint.x.toFixed(2)} ${endPoint.y.toFixed(2)}`;
+  };
+
+  const updateVisionPanelConnectors = (state) => {
+    const panelRect = state.panel.getBoundingClientRect();
+
+    if (
+      compactBeatFourQuery.matches ||
+      panelRect.width < 1 ||
+      panelRect.height < 1
+    ) {
+      Object.values(state.groups).forEach((group) => setConnectorVisibility(group, false));
+      return;
+    }
+
+    state.overlay.setAttribute('viewBox', `0 0 ${panelRect.width.toFixed(2)} ${panelRect.height.toFixed(2)}`);
+
+    Object.keys(state.groups).forEach((key) => {
+      const source = state.sources[key];
+      const card = state.cards[key];
+      const group = state.groups[key];
+
+      if (!source || !card || !group) {
+        setConnectorVisibility(group, false);
+        return;
+      }
+
+      const sourceRect = getRectRelativeToPanel(source, panelRect);
+      const cardRect = getRectRelativeToPanel(card, panelRect);
+
+      if (sourceRect.width < 1 || sourceRect.height < 1 || cardRect.width < 1 || cardRect.height < 1) {
+        setConnectorVisibility(group, false);
+        return;
+      }
+
+      const sourceCenter = getRectCenter(sourceRect);
+      const cardCenter = getRectCenter(cardRect);
+      const startPoint = getRectEdgePoint(sourceRect, cardCenter);
+      const endPoint = getRectEdgePoint(cardRect, sourceCenter);
+      const path = group.querySelector('.beat-four-wire__connector-line');
+      const animalNode = group.querySelector('.beat-four-wire__connector-node--animal');
+      const cardNode = group.querySelector('.beat-four-wire__connector-node--card');
+
+      if (!path || !animalNode || !cardNode) {
+        setConnectorVisibility(group, false);
+        return;
+      }
+
+      path.setAttribute('d', buildConnectorPath(startPoint, endPoint));
+      animalNode.setAttribute('cx', startPoint.x.toFixed(2));
+      animalNode.setAttribute('cy', startPoint.y.toFixed(2));
+      cardNode.setAttribute('cx', endPoint.x.toFixed(2));
+      cardNode.setAttribute('cy', endPoint.y.toFixed(2));
+      setConnectorVisibility(group, true);
+    });
+  };
+
+  let connectorFrame = null;
+
+  const queueVisionConnectorUpdate = () => {
+    if (connectorFrame !== null) {
+      return;
+    }
+
+    connectorFrame = window.requestAnimationFrame(() => {
+      connectorFrame = null;
+      connectorStates.forEach(updateVisionPanelConnectors);
+    });
+  };
+
+  if ('ResizeObserver' in window) {
+    const connectorObserver = new ResizeObserver(queueVisionConnectorUpdate);
+
+    connectorStates.forEach((state) => {
+      connectorObserver.observe(state.panel);
+
+      Object.values(state.sources).forEach((element) => {
+        if (element) {
+          connectorObserver.observe(element);
+        }
+      });
+
+      Object.values(state.cards).forEach((element) => {
+        if (element) {
+          connectorObserver.observe(element);
+        }
+      });
+    });
+  }
+
+  window.addEventListener('resize', queueVisionConnectorUpdate, { passive: true });
+  addMediaQueryChangeListener(compactBeatFourQuery, queueVisionConnectorUpdate);
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(queueVisionConnectorUpdate).catch(() => {});
+  }
+
+  queueVisionConnectorUpdate();
+}
+
 const migrationSceneStates = new Map();
 
 const createSeededRandom = (seed) => {

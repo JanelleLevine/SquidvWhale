@@ -137,24 +137,43 @@
                 <article class="beat-four-slide" data-beat-four-panel>
                   <div class="beat-four-wire beat-four-wire--vision">
                     <div class="beat-four-wire__stage" aria-hidden="true">
-                      <div class="beat-four-wire__eye bottom-encounter__scene-six-squid">
+                      <div class="beat-four-wire__eye bottom-encounter__scene-six-squid" data-vision-animal="lead">
                         <img class="bottom-encounter__scene-six-squid-image" src="assets/images/giant_squid_silhouette_transparent.png" alt="" loading="lazy">
                         <span class="bottom-encounter__scene-six-eye-cover"></span>
                       </div>
-                      <img class="beat-four-wire__whale-glow" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
-                      <div class="beat-four-wire__ink bottom-encounter__ink-squid-group">
+                      <img class="beat-four-wire__whale-glow" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy" data-vision-animal="body">
+                      <div class="beat-four-wire__ink bottom-encounter__ink-squid-group" data-vision-animal="ink">
                         <canvas class="bottom-encounter__squid-ink-canvas" width="1122" height="1402"></canvas>
                         <video class="bottom-encounter__squid-ink-video" data-masked-video muted loop playsinline preload="auto">
                           <source src="CanvaVideos/squidink_inwater.mp4" type="video/mp4">
                         </video>
                       </div>
                     </div>
-                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--vision-main">
+                    <svg class="beat-four-wire__connectors" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                      <g class="beat-four-wire__connector" data-vision-link="lead">
+                        <path class="beat-four-wire__connector-line"></path>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="4"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="4"></circle>
+                      </g>
+                      <g class="beat-four-wire__connector" data-vision-link="body">
+                        <path class="beat-four-wire__connector-line"></path>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="4"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="4"></circle>
+                      </g>
+                      <g class="beat-four-wire__connector" data-vision-link="ink">
+                        <path class="beat-four-wire__connector-line"></path>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="4"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="4"></circle>
+                      </g>
+                    </svg>
+                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--vision-lead" data-vision-card="lead">
                       <p>Squid have cantaloupe-sized eyes to see further in the darkness than their competitors. Scanning the darkness with the largest eyes in the animal kingdom, giant squids (<em>Architeuthis dux</em>) focus on bioluminescent trails.</p>
+                    </div>
+                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--vision-body" data-vision-card="body">
                       <p>They&rsquo;re able to see the &ldquo;soup&rdquo; of bioluminescent plankton that is disturbed and illuminated by a pod of diving sperm whales, like the spinning, rolling wake behind a speedboat or a flurry of snowflakes.</p>
                       <p>A large disturbance suggests a large animal approaching, so the squid must decide to freeze in place or flee with jet propulsion, leaving a cloud of ink in their wake.</p>
                     </div>
-                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--vision-ink">
+                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--vision-ink" data-vision-card="ink">
                       <p>Inking: As lone hunters, the giant squids use visual communication for diversion and escape from anything larger than themselves. One of their favorite tactics is expelling ink as a concealing cloud while they dart into the darkness.</p>
                     </div>
                   </div>
