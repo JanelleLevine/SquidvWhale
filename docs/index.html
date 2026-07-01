@@ -135,14 +135,14 @@
             <div class="beat-four-viewport">
               <div class="beat-four-track" data-beat-four-track>
                 <article class="beat-four-slide" data-beat-four-panel>
-                  <div class="beat-four-wire beat-four-wire--vision">
+                  <div class="beat-four-wire beat-four-wire--diagram beat-four-wire--vision" data-beat-four-diagram="vision">
                     <div class="beat-four-wire__stage" aria-hidden="true">
-                      <div class="beat-four-wire__eye bottom-encounter__scene-six-squid" data-vision-animal="lead">
+                      <div class="beat-four-wire__eye bottom-encounter__scene-six-squid" data-beat-four-source="lead">
                         <img class="bottom-encounter__scene-six-squid-image" src="assets/images/giant_squid_silhouette_transparent.png" alt="" loading="lazy">
                         <span class="bottom-encounter__scene-six-eye-cover"></span>
                       </div>
-                      <img class="beat-four-wire__whale-glow" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy" data-vision-animal="body">
-                      <div class="beat-four-wire__ink bottom-encounter__ink-squid-group" data-vision-animal="ink">
+                      <img class="beat-four-wire__whale-glow" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy" data-beat-four-source="body">
+                      <div class="beat-four-wire__ink bottom-encounter__ink-squid-group" data-beat-four-source="ink">
                         <canvas class="bottom-encounter__squid-ink-canvas" width="1122" height="1402"></canvas>
                         <video class="bottom-encounter__squid-ink-video" data-masked-video muted loop playsinline preload="auto">
                           <source src="CanvaVideos/squidink_inwater.mp4" type="video/mp4">
@@ -150,73 +150,113 @@
                       </div>
                     </div>
                     <svg class="beat-four-wire__connectors" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                      <g class="beat-four-wire__connector" data-vision-link="lead">
+                      <g class="beat-four-wire__connector" data-beat-four-link="lead">
                         <path class="beat-four-wire__connector-line"></path>
-                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="4"></circle>
-                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="4"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="3.25"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="3.25"></circle>
                       </g>
-                      <g class="beat-four-wire__connector" data-vision-link="body">
+                      <g class="beat-four-wire__connector" data-beat-four-link="body">
                         <path class="beat-four-wire__connector-line"></path>
-                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="4"></circle>
-                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="4"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="3.25"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="3.25"></circle>
                       </g>
-                      <g class="beat-four-wire__connector" data-vision-link="ink">
+                      <g class="beat-four-wire__connector" data-beat-four-link="ink">
                         <path class="beat-four-wire__connector-line"></path>
-                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="4"></circle>
-                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="4"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="3.25"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="3.25"></circle>
                       </g>
                     </svg>
-                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--vision-lead" data-vision-card="lead">
+                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--diagram-card beat-four-wire__copy--vision-lead" data-beat-four-card="lead">
                       <p>Squid have cantaloupe-sized eyes to see further in the darkness than their competitors. Scanning the darkness with the largest eyes in the animal kingdom, giant squids (<em>Architeuthis dux</em>) focus on bioluminescent trails.</p>
                     </div>
-                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--vision-body" data-vision-card="body">
+                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--diagram-card beat-four-wire__copy--vision-body" data-beat-four-card="body">
                       <p>They&rsquo;re able to see the &ldquo;soup&rdquo; of bioluminescent plankton that is disturbed and illuminated by a pod of diving sperm whales, like the spinning, rolling wake behind a speedboat or a flurry of snowflakes.</p>
                       <p>A large disturbance suggests a large animal approaching, so the squid must decide to freeze in place or flee with jet propulsion, leaving a cloud of ink in their wake.</p>
                     </div>
-                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--vision-ink" data-vision-card="ink">
+                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--diagram-card beat-four-wire__copy--vision-ink" data-beat-four-card="ink">
                       <p>Inking: As lone hunters, the giant squids use visual communication for diversion and escape from anything larger than themselves. One of their favorite tactics is expelling ink as a concealing cloud while they dart into the darkness.</p>
                     </div>
                   </div>
                 </article>
 
                 <article class="beat-four-slide" data-beat-four-panel>
-                  <div class="beat-four-wire beat-four-wire--sound">
+                  <div class="beat-four-wire beat-four-wire--diagram beat-four-wire--sound" data-beat-four-diagram="sound" data-sonar-host>
                     <div class="beat-four-wire__stage" aria-hidden="true">
-                      <img class="beat-four-wire__sound-whale" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
-                      <div class="bottom-encounter__sonar beat-four-wire__sonar">
+                      <img class="beat-four-wire__sound-whale" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy" data-beat-four-source="echolocation-whale">
+                      <div class="bottom-encounter__sonar beat-four-wire__sonar" data-beat-four-source="echolocation">
                         <span class="bottom-encounter__sonar-ring"></span>
                         <span class="bottom-encounter__sonar-ring"></span>
                         <span class="bottom-encounter__sonar-ring"></span>
                         <span class="bottom-encounter__sonar-ring"></span>
                         <span class="bottom-encounter__sonar-ring"></span>
                       </div>
-                      <div class="beat-four-wire__stealth">
+                      <div class="beat-four-wire__stealth" data-beat-four-source="stealth">
                         <img src="assets/images/giant_squid_silhouette_transparent.png" alt="" loading="lazy">
                       </div>
                     </div>
-                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--sound-left">
+                    <svg class="beat-four-wire__connectors" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                      <g class="beat-four-wire__connector" data-beat-four-link="echolocation">
+                        <path class="beat-four-wire__connector-line"></path>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="3.25"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="3.25"></circle>
+                      </g>
+                      <g class="beat-four-wire__connector" data-beat-four-link="stealth">
+                        <path class="beat-four-wire__connector-line"></path>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="3.25"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="3.25"></circle>
+                      </g>
+                    </svg>
+                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--diagram-card beat-four-wire__copy--sound-echolocation" data-beat-four-card="echolocation">
                       <p><strong>Echolocation:</strong> Sperm whales use louder and more precise echolocation than in other cetaceans during group hunting and coordinated tracking of challenging prey, like giant squids.</p>
+                      <button class="bottom-encounter__audio-button beat-four-wire__audio-button" type="button" data-audio-toggle aria-pressed="false">
+                        Play Sperm Whale Creak
+                      </button>
+                      <audio data-audio-player preload="none">
+                        <source src="CanvaVideos/Sperm_Whale_Creak_2.ogg" type="audio/ogg">
+                      </audio>
                     </div>
-                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--sound-right">
-                      <p><strong>Acoustic Stealth:</strong> The technique of &ldquo;freezing&rdquo; vertically in place when encountering huge predators who use echolocation to seek prey in the darkness.</p>
-                      <p>Unable to &ldquo;hear&rdquo; a sperm whale&rsquo;s high-frequency echolocation that they use for long-range communication, a suspicious squid can adopt a vertical position in the midwater, hiding its shape from predators, like squid-eating whales, who &ldquo;scan&rdquo; for it with echolocation.</p>
+                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--diagram-card beat-four-wire__copy--sound-stealth" data-beat-four-card="stealth">
+                      <p><strong>Acoustic Stealth:</strong> Giant squid can &ldquo;freeze&rdquo; vertically in place when they sense a predator hunting with echolocation in the dark.</p>
+                      <p>By holding a narrow, upright profile in the midwater, the squid makes its outline harder for a scanning sperm whale to resolve.</p>
                       <p>This is a highly sophisticated precocial behavior (an instinct that animals practice that aren&rsquo;t taught by their parents).</p>
                     </div>
                   </div>
                 </article>
 
                 <article class="beat-four-slide" data-beat-four-panel>
-                  <div class="beat-four-wire beat-four-wire--pod">
+                  <div class="beat-four-wire beat-four-wire--diagram beat-four-wire--pod" data-beat-four-diagram="pod">
                     <div class="beat-four-wire__stage" aria-hidden="true">
                       <div class="beat-four-wire__pod">
-                        <img class="beat-four-pod-whale beat-four-pod-whale--one" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
-                        <img class="beat-four-pod-whale beat-four-pod-whale--two" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
-                        <img class="beat-four-pod-whale beat-four-pod-whale--three" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
+                        <img class="beat-four-pod-whale beat-four-pod-whale--one" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy" data-beat-four-source="pod-bonds">
+                        <img class="beat-four-pod-whale beat-four-pod-whale--two" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy" data-beat-four-source="pod-learning">
+                        <img class="beat-four-pod-whale beat-four-pod-whale--three" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy" data-beat-four-source="pod-hunt">
                       </div>
                     </div>
-                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--pod-main">
-                      <p>Social bonds: Sperm whales are born with curious minds and will &ldquo;babble&rdquo; to their family until they learn to properly speak their ancestors&rsquo; language. To master the pod&rsquo;s unique language, also known as a coda, is to bond with the pod, and to succeed in the daily hunts.</p>
-                      <p>As mammals, sperm whales must consume far more calories in a day than a similarly-sized shark or giant squid to maintain healthy body temperatures. This means frequent hunting dives with lots of guidance and feedback from the pod elders.</p>
+                    <svg class="beat-four-wire__connectors" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                      <g class="beat-four-wire__connector" data-beat-four-link="pod-bonds">
+                        <path class="beat-four-wire__connector-line"></path>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="3.25"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="3.25"></circle>
+                      </g>
+                      <g class="beat-four-wire__connector" data-beat-four-link="pod-learning">
+                        <path class="beat-four-wire__connector-line"></path>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="3.25"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="3.25"></circle>
+                      </g>
+                      <g class="beat-four-wire__connector" data-beat-four-link="pod-hunt">
+                        <path class="beat-four-wire__connector-line"></path>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--animal" r="3.25"></circle>
+                        <circle class="beat-four-wire__connector-node beat-four-wire__connector-node--card" r="3.25"></circle>
+                      </g>
+                    </svg>
+                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--diagram-card beat-four-wire__copy--pod-bonds" data-beat-four-card="pod-bonds">
+                      <p><strong>Social bonds and codas:</strong> Every sperm whale pod builds identity through its own pattern of calls, or codas, which help family members recognize and stay bonded to one another.</p>
+                    </div>
+                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--diagram-card beat-four-wire__copy--pod-learning" data-beat-four-card="pod-learning">
+                      <p><strong>Learning from the pod:</strong> Young whales &ldquo;babble&rdquo; with relatives until they learn to speak their ancestors&rsquo; language with the timing and rhythm their family expects.</p>
+                    </div>
+                    <div class="placeholder-copy beat-four-wire__copy beat-four-wire__copy--diagram-card beat-four-wire__copy--pod-hunt" data-beat-four-card="pod-hunt">
+                      <p><strong>Frequent hunting, guided by elders:</strong> As warm-blooded mammals, sperm whales need far more calories than similarly sized predators, so they hunt often and depend on experienced pod elders for feedback during dives.</p>
                     </div>
                   </div>
                 </article>
@@ -363,7 +403,7 @@
           <img class="bottom-encounter__silhouette bottom-encounter__silhouette--squid" src="assets/images/giant_squid_silhouette_transparent.png" alt="" loading="lazy">
           <img class="bottom-encounter__silhouette bottom-encounter__silhouette--whale" src="assets/images/Silhouette_Sperm_Whale.png" alt="" loading="lazy">
         </div>
-        <div class="bottom-encounter bottom-encounter--scene-two" data-bottom-encounter>
+        <div class="bottom-encounter bottom-encounter--scene-two" data-bottom-encounter data-sonar-host>
           <div class="bottom-encounter__explainer">
             <h3>2</h3>
             <div class="placeholder-copy">

@@ -533,34 +533,106 @@ registerHorizontalPanels({
   compactQuery: compactBeatFourQuery
 });
 
-const visionPanels = Array.from(document.querySelectorAll('.beat-four-wire--vision'));
+const beatFourDiagramPanels = Array.from(document.querySelectorAll('[data-beat-four-diagram]'));
 
-if (visionPanels.length > 0) {
-  const connectorStates = visionPanels.map((panel) => {
+if (beatFourDiagramPanels.length > 0) {
+  const beatFourConnectorConfigs = {
+    pod: {
+      'pod-bonds': {
+        card: 'pod-bonds',
+        direction: 'right',
+        source: 'pod-bonds',
+        sourcePoint: { x: 0.76, y: 0.44 },
+        targetPoint: { x: 0, y: 0.5 }
+      },
+      'pod-hunt': {
+        card: 'pod-hunt',
+        direction: 'right',
+        source: 'pod-hunt',
+        sourcePoint: { x: 0.78, y: 0.52 },
+        targetPoint: { x: 0, y: 0.5 }
+      },
+      'pod-learning': {
+        card: 'pod-learning',
+        direction: 'left',
+        source: 'pod-learning',
+        sourcePoint: { x: 0.2, y: 0.5 },
+        targetPoint: { x: 1, y: 0.5 }
+      }
+    },
+    sound: {
+      echolocation: {
+        card: 'echolocation',
+        direction: 'right',
+        source: 'echolocation',
+        sourcePoint: { x: 0.68, y: 0.42 },
+        targetPoint: { x: 0, y: 0.5 }
+      },
+      stealth: {
+        card: 'stealth',
+        direction: 'left',
+        source: 'stealth',
+        sourcePoint: { x: 0.22, y: 0.5 },
+        targetPoint: { x: 1, y: 0.5 }
+      }
+    },
+    vision: {
+      body: {
+        card: 'body',
+        direction: 'left',
+        source: 'body',
+        sourcePoint: { x: 0.16, y: 0.47 },
+        targetPoint: { x: 1, y: 0.5 }
+      },
+      ink: {
+        card: 'ink',
+        direction: 'right',
+        source: 'ink',
+        sourcePoint: { x: 0.78, y: 0.5 },
+        targetPoint: { x: 0, y: 0.5 }
+      },
+      lead: {
+        card: 'lead',
+        direction: 'right',
+        source: 'lead',
+        sourcePoint: { x: 0.82, y: 0.48 },
+        targetPoint: { x: 0, y: 0.5 }
+      }
+    }
+  };
+
+  const connectorStates = beatFourDiagramPanels.map((panel) => {
     const overlay = panel.querySelector('.beat-four-wire__connectors');
+    const panelType = panel.dataset.beatFourDiagram;
+    const panelConfig = panelType ? beatFourConnectorConfigs[panelType] : null;
 
-    if (!overlay) {
+    if (!overlay || !panelConfig) {
+      return null;
+    }
+
+    const connectors = Object.entries(panelConfig).map(([key, connectorConfig]) => {
+      const group = overlay.querySelector(`[data-beat-four-link="${key}"]`);
+
+      if (!group) {
+        return null;
+      }
+
+      return {
+        card: panel.querySelector(`[data-beat-four-card="${connectorConfig.card}"]`),
+        config: connectorConfig,
+        group,
+        source: panel.querySelector(`[data-beat-four-source="${connectorConfig.source}"]`)
+      };
+    }).filter(Boolean);
+
+    if (connectors.length === 0) {
       return null;
     }
 
     return {
-      cards: {
-        body: panel.querySelector('[data-vision-card="body"]'),
-        ink: panel.querySelector('[data-vision-card="ink"]'),
-        lead: panel.querySelector('[data-vision-card="lead"]')
-      },
-      groups: {
-        body: overlay.querySelector('[data-vision-link="body"]'),
-        ink: overlay.querySelector('[data-vision-link="ink"]'),
-        lead: overlay.querySelector('[data-vision-link="lead"]')
-      },
+      connectors,
       overlay,
-      panel,
-      sources: {
-        body: panel.querySelector('[data-vision-animal="body"]'),
-        ink: panel.querySelector('[data-vision-animal="ink"]'),
-        lead: panel.querySelector('[data-vision-animal="lead"]')
-      }
+      panel
     };
   }).filter(Boolean);
 
@@ -585,45 +657,58 @@ if (visionPanels.length > 0) {
     };
   };
 
-  const getRectCenter = (rect) => ({
-    x: rect.left + (rect.width / 2),
-    y: rect.top + (rect.height / 2)
+  const getAnchorPoint = (rect, anchorPoint) => ({
+    x: rect.left + (rect.width * anchorPoint.x),
+    y: rect.top + (rect.height * anchorPoint.y)
   });
 
-  const getRectEdgePoint = (rect, towardPoint) => {
-    const center = getRectCenter(rect);
-    const dx = towardPoint.x - center.x;
-    const dy = towardPoint.y - center.y;
+  const buildOrthogonalConnectorPath = (startPoint, endPoint, direction) => {
+    const horizontalGap = Math.abs(endPoint.x - startPoint.x);
+    const verticalGap = Math.abs(endPoint.y - startPoint.y);
+    const signY = endPoint.y >= startPoint.y ? 1 : -1;
 
-    if (dx === 0 && dy === 0) {
-      return center;
+    if (horizontalGap < 18) {
+      return null;
     }
 
-    const halfWidth = Math.max(rect.width / 2, 1);
-    const halfHeight = Math.max(rect.height / 2, 1);
-    const scale = 1 / Math.max(Math.abs(dx) / halfWidth, Math.abs(dy) / halfHeight);
+    if (verticalGap < 8) {
+      return `M ${startPoint.x.toFixed(2)} ${startPoint.y.toFixed(2)} H ${endPoint.x.toFixed(2)}`;
+    }
 
-    return {
-      x: center.x + (dx * scale),
-      y: center.y + (dy * scale)
-    };
+    const elbowTravel = clamp(horizontalGap * 0.38, 18, 88);
+    const elbowX = direction === 'right'
+      ? Math.min(startPoint.x + elbowTravel, endPoint.x - 14)
+      : Math.max(startPoint.x - elbowTravel, endPoint.x + 14);
+
+    if (
+      (direction === 'right' && elbowX <= startPoint.x + 8) ||
+      (direction === 'right' && elbowX >= endPoint.x - 8) ||
+      (direction === 'left' && elbowX >= startPoint.x - 8) ||
+      (direction === 'left' && elbowX <= endPoint.x + 8)
+    ) {
+      return null;
+    }
+
+    const cornerRadius = clamp(Math.min(verticalGap * 0.35, horizontalGap * 0.18), 4, 12);
+
+    if (direction === 'right') {
+      const firstTurnX = elbowX - cornerRadius;
+      const firstTurnY = startPoint.y + (signY * cornerRadius);
+      const secondTurnY = endPoint.y - (signY * cornerRadius);
+      const secondTurnX = elbowX + cornerRadius;
+
+      return `M ${startPoint.x.toFixed(2)} ${startPoint.y.toFixed(2)} H ${firstTurnX.toFixed(2)} Q ${elbowX.toFixed(2)} ${startPoint.y.toFixed(2)} ${elbowX.toFixed(2)} ${firstTurnY.toFixed(2)} V ${secondTurnY.toFixed(2)} Q ${elbowX.toFixed(2)} ${endPoint.y.toFixed(2)} ${secondTurnX.toFixed(2)} ${endPoint.y.toFixed(2)} H ${endPoint.x.toFixed(2)}`;
+    }
+
+    const firstTurnX = elbowX + cornerRadius;
+    const firstTurnY = startPoint.y + (signY * cornerRadius);
+    const secondTurnY = endPoint.y - (signY * cornerRadius);
+    const secondTurnX = elbowX - cornerRadius;
+
+    return `M ${startPoint.x.toFixed(2)} ${startPoint.y.toFixed(2)} H ${firstTurnX.toFixed(2)} Q ${elbowX.toFixed(2)} ${startPoint.y.toFixed(2)} ${elbowX.toFixed(2)} ${firstTurnY.toFixed(2)} V ${secondTurnY.toFixed(2)} Q ${elbowX.toFixed(2)} ${endPoint.y.toFixed(2)} ${secondTurnX.toFixed(2)} ${endPoint.y.toFixed(2)} H ${endPoint.x.toFixed(2)}`;
   };
 
-  const buildConnectorPath = (startPoint, endPoint) => {
-    const dx = endPoint.x - startPoint.x;
-    const dy = endPoint.y - startPoint.y;
-    const horizontalDirection = dx >= 0 ? 1 : -1;
-    const horizontalCurve = clamp(Math.abs(dx) * 0.34, 18, 120);
-    const verticalCurve = clamp(Math.abs(dy) * 0.16, 0, 34);
-    const c1x = startPoint.x + (horizontalCurve * horizontalDirection);
-    const c1y = startPoint.y + (verticalCurve * Math.sign(dy || 1));
-    const c2x = endPoint.x - (horizontalCurve * horizontalDirection);
-    const c2y = endPoint.y - (verticalCurve * Math.sign(dy || 1));
-
-    return `M ${startPoint.x.toFixed(2)} ${startPoint.y.toFixed(2)} C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${endPoint.x.toFixed(2)} ${endPoint.y.toFixed(2)}`;
-  };
-
-  const updateVisionPanelConnectors = (state) => {
+  const updateBeatFourPanelConnectors = (state) => {
     const panelRect = state.panel.getBoundingClientRect();
 
     if (
@@ -631,17 +716,13 @@ if (visionPanels.length > 0) {
       panelRect.width < 1 ||
       panelRect.height < 1
     ) {
-      Object.values(state.groups).forEach((group) => setConnectorVisibility(group, false));
+      state.connectors.forEach(({ group }) => setConnectorVisibility(group, false));
       return;
     }
 
     state.overlay.setAttribute('viewBox', `0 0 ${panelRect.width.toFixed(2)} ${panelRect.height.toFixed(2)}`);
 
-    Object.keys(state.groups).forEach((key) => {
-      const source = state.sources[key];
-      const card = state.cards[key];
-      const group = state.groups[key];
-
+    state.connectors.forEach(({ card, config, group, source }) => {
       if (!source || !card || !group) {
         setConnectorVisibility(group, false);
         return;
@@ -655,20 +736,33 @@ if (visionPanels.length > 0) {
         return;
       }
 
-      const sourceCenter = getRectCenter(sourceRect);
-      const cardCenter = getRectCenter(cardRect);
-      const startPoint = getRectEdgePoint(sourceRect, cardCenter);
-      const endPoint = getRectEdgePoint(cardRect, sourceCenter);
-      const path = group.querySelector('.beat-four-wire__connector-line');
-      const animalNode = group.querySelector('.beat-four-wire__connector-node--animal');
-      const cardNode = group.querySelector('.beat-four-wire__connector-node--card');
+      const startPoint = getAnchorPoint(sourceRect, config.sourcePoint);
+      const endPoint = getAnchorPoint(cardRect, config.targetPoint);
+      const horizontalDelta = endPoint.x - startPoint.x;
 
-      if (!path || !animalNode || !cardNode) {
+      if (
+        (config.direction === 'right' && horizontalDelta <= 18) ||
+        (config.direction === 'left' && horizontalDelta >= -18)
+      ) {
         setConnectorVisibility(group, false);
         return;
       }
 
-      path.setAttribute('d', buildConnectorPath(startPoint, endPoint));
+      const connectorPath = buildOrthogonalConnectorPath(
+        startPoint,
+        endPoint,
+        config.direction
+      );
+      const path = group.querySelector('.beat-four-wire__connector-line');
+      const animalNode = group.querySelector('.beat-four-wire__connector-node--animal');
+      const cardNode = group.querySelector('.beat-four-wire__connector-node--card');
+
+      if (!connectorPath || !path || !animalNode || !cardNode) {
+        setConnectorVisibility(group, false);
+        return;
+      }
+
+      path.setAttribute('d', connectorPath);
       animalNode.setAttribute('cx', startPoint.x.toFixed(2));
       animalNode.setAttribute('cy', startPoint.y.toFixed(2));
       cardNode.setAttribute('cx', endPoint.x.toFixed(2));
@@ -679,30 +773,34 @@ if (visionPanels.length > 0) {
 
   let connectorFrame = null;
 
-  const queueVisionConnectorUpdate = () => {
+  const queueBeatFourConnectorUpdate = () => {
     if (connectorFrame !== null) {
       return;
     }
 
     connectorFrame = window.requestAnimationFrame(() => {
       connectorFrame = null;
-      connectorStates.forEach(updateVisionPanelConnectors);
+      connectorStates.forEach(updateBeatFourPanelConnectors);
     });
   };
 
   if ('ResizeObserver' in window) {
-    const connectorObserver = new ResizeObserver(queueVisionConnectorUpdate);
+    const connectorObserver = new ResizeObserver(queueBeatFourConnectorUpdate);
 
     connectorStates.forEach((state) => {
       connectorObserver.observe(state.panel);
 
-      Object.values(state.sources).forEach((element) => {
-        if (element) {
-          connectorObserver.observe(element);
-        }
+      const observedElements = new Set();
+
+      state.connectors.forEach(({ card, source }) => {
+        [card, source].forEach((element) => {
+          if (element) {
+            observedElements.add(element);
+          }
+        });
       });
 
-      Object.values(state.cards).forEach((element) => {
+      observedElements.forEach((element) => {
         if (element) {
           connectorObserver.observe(element);
         }
@@ -710,14 +808,25 @@ if (visionPanels.length > 0) {
     });
   }
 
-  window.addEventListener('resize', queueVisionConnectorUpdate, { passive: true });
-  addMediaQueryChangeListener(compactBeatFourQuery, queueVisionConnectorUpdate);
-
-  if (document.fonts?.ready) {
-    document.fonts.ready.then(queueVisionConnectorUpdate).catch(() => {});
+  if ('MutationObserver' in window && beatFourTrack) {
+    const trackObserver = new MutationObserver(queueBeatFourConnectorUpdate);
+    trackObserver.observe(beatFourTrack, {
+      attributeFilter: ['style'],
+      attributes: true
+    });
   }
 
-  queueVisionConnectorUpdate();
+  window.addEventListener('resize', queueBeatFourConnectorUpdate, { passive: true });
+  window.addEventListener('scroll', queueBeatFourConnectorUpdate, { passive: true });
+  addMediaQueryChangeListener(compactBeatFourQuery, queueBeatFourConnectorUpdate);
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(queueBeatFourConnectorUpdate).catch(() => {});
+  }
+
+  window.addEventListener('load', queueBeatFourConnectorUpdate, { once: true });
+
+  queueBeatFourConnectorUpdate();
 }
 
 const migrationSceneStates = new Map();
@@ -1137,13 +1246,9 @@ if (audioToggles.length > 0) {
   };
 
   const syncEncounterAudioState = (button, isPlaying) => {
-    const scene = button.closest('[data-bottom-encounter]');
+    const scene = button.closest('[data-sonar-host]');
 
     if (!scene) {
-      return;
-    }
-
-    if (!scene.classList.contains('bottom-encounter--scene-two')) {
       return;
     }
 
