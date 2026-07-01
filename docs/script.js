@@ -538,25 +538,11 @@ const beatFourDiagramPanels = Array.from(document.querySelectorAll('[data-beat-f
 if (beatFourDiagramPanels.length > 0) {
   const beatFourConnectorConfigs = {
     pod: {
-      'pod-bonds': {
-        card: 'pod-bonds',
-        direction: 'right',
-        source: 'pod-bonds',
-        sourcePoint: { x: 0.76, y: 0.44 },
-        targetPoint: { x: 0, y: 0.5 }
-      },
-      'pod-hunt': {
-        card: 'pod-hunt',
-        direction: 'right',
-        source: 'pod-hunt',
-        sourcePoint: { x: 0.78, y: 0.52 },
-        targetPoint: { x: 0, y: 0.5 }
-      },
-      'pod-learning': {
-        card: 'pod-learning',
+      pod: {
+        card: 'pod',
         direction: 'left',
-        source: 'pod-learning',
-        sourcePoint: { x: 0.2, y: 0.5 },
+        source: 'pod',
+        sourcePoint: { x: 0.16, y: 0.52 },
         targetPoint: { x: 1, y: 0.5 }
       }
     },
