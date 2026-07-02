@@ -223,8 +223,11 @@ a {
 .beat-section--family {
   --family-step-count: 3;
   --family-reveal-step: clamp(8rem, 18vh, 12rem);
+  --family-stage-pad-top: clamp(2.75rem, 6vh, 4.5rem);
+  --family-stage-pad-bottom: clamp(4rem, 10vh, 7rem);
+  --family-heading-gap: clamp(4rem, 10vh, 7.5rem);
   position: relative;
-  min-height: calc(100svh + (var(--family-step-count) * var(--family-reveal-step)) + clamp(10rem, 18vh, 16rem));
+  min-height: calc(100svh + (var(--family-step-count) * var(--family-reveal-step)) + clamp(12rem, 22vh, 18rem));
   padding: 0;
   background: var(--bg);
   overflow: clip;
@@ -242,10 +245,10 @@ a {
   position: sticky;
   top: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100svh;
-  padding: clamp(3.75rem, 7vh, 5.25rem) 0;
-  overflow: hidden;
+  padding: var(--family-stage-pad-top) 0 var(--family-stage-pad-bottom);
+  overflow: visible;
 }
 
 .beat-section--detritus::before,
@@ -306,8 +309,8 @@ a {
 }
 
 .beat-section--family .section-heading {
-  margin-top: clamp(4.5rem, 9vw, 6rem);
-  margin-bottom: clamp(9rem, 20vw, 15rem);
+  margin-top: 0;
+  margin-bottom: var(--family-heading-gap);
 }
 
 .section-heading h1,
@@ -3658,16 +3661,19 @@ a {
 
   .beat-section--family {
     --family-reveal-step: clamp(7rem, 16vh, 10rem);
-    min-height: calc(100svh + (var(--family-step-count) * var(--family-reveal-step)) + 9rem);
+    --family-stage-pad-top: clamp(2.5rem, 5vh, 3.5rem);
+    --family-stage-pad-bottom: clamp(3.5rem, 9vh, 5rem);
+    --family-heading-gap: clamp(3.25rem, 8vh, 5rem);
+    min-height: calc(100svh + (var(--family-step-count) * var(--family-reveal-step)) + 11rem);
   }
 
   .beat-section--family .family-stage {
-    padding: clamp(3rem, 6vh, 4rem) 0;
+    padding: var(--family-stage-pad-top) 0 var(--family-stage-pad-bottom);
   }
 
   .beat-section--family .section-heading {
-    margin-top: clamp(3.5rem, 9vw, 5rem);
-    margin-bottom: clamp(6rem, 14vw, 9rem);
+    margin-top: 0;
+    margin-bottom: var(--family-heading-gap);
   }
 
   .beat-section--family .card-grid--family {
