@@ -120,18 +120,24 @@ a {
 }
 
 .site-nav {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
   align-self: center;
   margin-top: -0.35rem;
 }
 
 .site-nav a {
-  padding: 0.55rem 0.75rem;
-  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 1.25rem;
   color: var(--muted);
   font-size: 0.92rem;
+  line-height: 1.2;
+  text-align: center;
   text-decoration: none;
   transition: background-color 160ms ease, color 160ms ease;
 }
@@ -2643,6 +2649,16 @@ a {
   align-items: start;
 }
 
+#beat-6 .comparison-tile--help {
+  grid-column: 1 / -1;
+  width: min(100%, 42rem);
+  justify-self: center;
+}
+
+#beat-6 .comparison-tile--help h3 {
+  text-align: center;
+}
+
 #beat-6 .conclusion-copy .placeholder-copy,
 #beat-6 .comparison-tile .placeholder-copy {
   max-width: none;
@@ -2730,6 +2746,52 @@ a {
   margin: 0;
   color: var(--muted);
   line-height: 1.82;
+}
+
+.photo-credits__content--citations p + p {
+  margin-top: 1rem;
+}
+
+.page-end-link {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.page-end-link a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 10.5rem;
+  padding: 0.9rem 1.35rem;
+  border: 1px solid rgba(185, 224, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(185, 224, 255, 0.08);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 12px 28px rgba(0, 0, 0, 0.22);
+  color: var(--hero-text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.page-end-link a:hover,
+.page-end-link a:focus-visible {
+  color: var(--text);
+  background: rgba(185, 224, 255, 0.14);
+  border-color: rgba(185, 224, 255, 0.34);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 16px 32px rgba(0, 0, 0, 0.28);
 }
 
 .bottom-encounter {
