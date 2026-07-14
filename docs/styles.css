@@ -324,13 +324,20 @@ a {
 .section-heading h3 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2vw, 2.4rem);
   letter-spacing: -0.02em;
   line-height: 1.08;
 }
 
 .section-heading h1 {
   font-size: clamp(2rem, 3.4vw, 3rem);
+}
+
+.section-heading h2 {
+  font-size: clamp(2rem, 3vw, 2.85rem);
+}
+
+.section-heading h3 {
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
 }
 
 .eyebrow {
@@ -1465,9 +1472,9 @@ a {
 .follow-whale-panel__copy h3 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2.1rem, 3.6vw, 3.25rem);
-  line-height: 0.94;
-  letter-spacing: -0.04em;
+  font-size: clamp(1.55rem, 2.2vw, 1.95rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
   color: var(--hero-text);
 }
 
@@ -4020,7 +4027,7 @@ a {
   }
 
   .follow-whale-panel__copy h3 {
-    font-size: clamp(1.9rem, 10vw, 2.75rem);
+    font-size: clamp(1.45rem, 7vw, 1.9rem);
   }
 
   .follow-whale-panel__media {
